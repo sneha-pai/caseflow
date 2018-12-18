@@ -221,7 +221,8 @@ const propsToText = (props) => {
   const action = props.task && props.task.availableActions.length > 0 ? selectedAction(props) : null;
 
   return {
-    title: props.assigneeAlreadySelected && action ? `Assign task to ${action.label}` : COPY.ASSIGN_TO_PAGE_TITLE
+    title: props.assigneeAlreadySelected && action ? `Assign task to ${action.label}` : COPY.ASSIGN_TO_PAGE_TITLE,
+    nextStepPath: `/queue/appeals/${props.appealId}`
   };
 };
 

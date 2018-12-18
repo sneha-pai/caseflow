@@ -13,7 +13,7 @@ const bottomMargin = css({
   marginBottom: '1.5rem'
 });
 
-export default function editModalBase(ComponentToWrap, { title, button, propsToText }) {
+export default function editModalBase(ComponentToWrap, { title, button, propsToText, nextStepPath = '/queue' }) {
   class WrappedComponent extends React.Component {
     constructor(props) {
       super(props);
@@ -28,7 +28,9 @@ export default function editModalBase(ComponentToWrap, { title, button, propsToT
     }
 
     closeHandler = () => {
-      this.props.history.replace('/queue');
+      const redirectTo = (propsToText && propsToText(this.props).nextStepPath) ? propsToText(this.props).nextStepPath : nextStepPath;
+
+      this.props.history.replace(redirectTo);
     }
 
     title = () => title || (propsToText && propsToText(this.props).title);
