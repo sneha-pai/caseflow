@@ -154,6 +154,13 @@ class AppealRepository
     set_vacols_values(appeal: appeal, case_record: case_record)
   end
 
+  def self.find_or_create_appeals(vacols_ids, persist = false)
+    appeals = LegacyAppeal.where(vacols_id: vacols_ids)
+    vacols_ids_to_create = vacols_ids - appeals.pluck(:vacols_id)
+
+    find_case_record(vacols_ids_to_create).map { |case_record| build_appeal(case_record, persist) } + appeals
+  end
+
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def self.set_vacols_values(appeal:, case_record:)
     correspondent_record = case_record.correspondent

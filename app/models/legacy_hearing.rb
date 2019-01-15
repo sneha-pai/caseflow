@@ -260,7 +260,7 @@ class LegacyHearing < ApplicationRecord
       user.nil? || (user.css_id != vacols_css_id)
     end
 
-    def assign_or_create_from_vacols_record(vacols_record, fetched_hearing = nil)
+    def assign_or_create_from_vacols_record(vacols_record, legacy_appeal, fetched_hearing = nil)
       transaction do
         hearing = fetched_hearing ||
                   find_or_initialize_by(vacols_id: vacols_record.hearing_pkseq)
@@ -270,7 +270,7 @@ class LegacyHearing < ApplicationRecord
         # who it's assigned to in the db.
         if user_nil_or_assigned_to_another_judge?(hearing.user, vacols_record.css_id)
           hearing.update(
-            appeal: LegacyAppeal.find_or_create_by(vacols_id: vacols_record.folder_nr),
+            appeal: legacy_appeal,
             user: User.find_by(css_id: vacols_record.css_id)
           )
         end
