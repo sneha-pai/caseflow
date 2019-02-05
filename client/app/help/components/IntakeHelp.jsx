@@ -21,40 +21,32 @@ class IntakeHelp extends React.Component {
       <div className="cf-help-divider"></div>
 
       <ul id="toc" className="usa-unstyled-list">
-        <li><a href="#what-is-caseflow-intake">1. What is Caseflow Intake?</a></li>
-        <li><a href="#how-was-intake-developed">2. How was Intake developed?</a></li>
-        <li><a href="#how-to-access-intake">3. How do I access Intake?</a></li>
-        <li><a href="#launch-intake">4. How do I launch Intake?</a></li>
-        <li><a href="#web-browser">5. Which web browser can I use with Intake?</a></li>
-        <li><a href="#telecommuting">6. Does Intake work while I am telecommuting?</a></li>
-        <li><a href="#encounter-problems">7. What should I do if I encounter problems?</a></li>
-        <li><a href="#suggestions">8. How can I share my suggestions for improving Intake?</a><a></a></li><a>
-        </a><li><a></a><a href="#still-need-help">9. What if I still need help? </a></li>
+        <li><a href="#what-is-caseflow-intake">What is Caseflow Intake?</a></li>
+        <li><a href="#how-was-intake-developed">How was Intake developed?</a></li>
+        <li><a href="#how-to-access-intake">How do I access Intake?</a></li>
+        <li><a href="#launch-intake">How do I launch Intake?</a></li>
+        <li><a href="#web-browser">Which web browser can I use with Intake?</a></li>
+        <li><a href="#telecommuting">Does Intake work while I am telecommuting?</a></li>
+        <li><a href="#lob-bva-appeal">What should I do if my line of business receives a Board Appeal?</a></li>
+        <li><a href="#encounter-problems">What should I do if I encounter problems?</a></li>
+        <li><a href="#suggestions">How can I share my suggestions for improving Intake?</a></li>
+        <li><a></a><a href="#still-need-help">What if I still need help? </a></li>
       </ul>
 
       <div className="cf-help-divider"></div>
 
-      <h2 id="what-is-caseflow-intake">1. What is Caseflow Intake?</h2>
-      <p>Caseflow Intake (Intake) is a web-based application designed to support the Rapid Appeals
-    Modernization Program (RAMP). It will help process legacy appeals for Veterans who have
-    chosen to opt-in for the new Supplemental Claim (SC) or Higher-Level Review (HLR) options.
-    Intake will serve as the single intake system for this process. It will allow for identifying the
-    selected option (SC or HLR) and details for a given Veteran's issues (pulled from VBMS),
-    creating an End Product (EP), sending notifications to the Appellant, routing the EP to the
-    appropriate destination, and closing the VACOLS record automatically for eligible opt-ins.
-    Intake will guide Claims Assistants (CAs) through the process of notifying Veterans, updating
-    necessary systems, and creating End Products (EPs). Intake was built by the Digital Service at
-    VA (DSVA) and will create process improvements for many areas of the VA. Learn more: <a target="_blank" rel="noopener noreferrer" href="/assets/Intake_Training_Guide.pdf">Training Guide</a>
+      <h2 id="what-is-caseflow-intake">What is Caseflow Intake?</h2>
+      <p>Caseflow Intake (Intake) is a web-based application designed to support the Appeals Modernization Act (AMA). It will process decision reviews for Veterans who have chosen the new Supplemental Claim (SC) or Higher-Level Review (HLR) options as well as those who have chosen to appeal directly to the Board through a Notice of Disagreement (NOD). Intake will serve as the single data input system for this process, providing a source of truth for AMA statutory metrics. For non-VBMS users, Intake will additionally provide a lightweight task list and facility to mark dispositions, closing the loop on appeals issues and assuring an end-to-end collection of AMA metrics. Across the board, Intake performs numerous issue-level validations, matching, and error checking, to capture the best possible data and reduce processing overhead. Intake was built by the Digital Service at VA (DSVA) and will create process improvements for many areas of the VA.
       </p>
 
-      <h2 id="how-was-intake-developed">2. How was Intake developed?</h2>
+      <h2 id="how-was-intake-developed">How was Intake developed?</h2>
       <p>The DSVA team worked closely with stakeholders across the VA to develop and test Intake.
-    Using feedback from VA employees and human-centered design principles, DSVA has tweaked
+    Using feedback from VA employees and human-centered design principles, DSVA has adjusted
     and improved the tool steadily. They will continue to improve the tool based on feedback and as
     they have more opportunities to make things simpler.
       </p>
 
-      <h2 id="how-to-access-intake">3. How do I access Intake?</h2>
+      <h2 id="how-to-access-intake">How do I access Intake?</h2>
       <p>To gain access to Intake, you must submit a request to your Information Security Officer (ISO)
     and/or Information Resources Management (IRM) team to adjust your Common Security
     Employee Manager (CSEM) permissions. To initiate the request, draft an email requesting your
@@ -71,20 +63,29 @@ class IntakeHelp extends React.Component {
     and/or ISO for entry into CSEM. You will receive an email notice once access is granted.
       </p>
 
-      <h2 id="launch-intake">4. How do I launch Intake?</h2>
+      <h2 id="launch-intake">How do I launch Intake?</h2>
       <p>To launch Intake, open your web browser and paste the following URL into the address bar: <a href="https://appeals.cf.ds.va.gov/intake" >https://appeals.cf.ds.va.gov/intake</a>. Hit the Enter button and sign in using your VA credentials. You will be taken to the Intake Welcome page.
       </p>
 
-      <h2 id="web-browser">5. Which web browser can I use with Intake?</h2>
+      <h2 id="web-browser">Which web browser can I use with Intake?</h2>
       <p>Intake is compatible with most modern web browsers, such as Chrome,
     Firefox, Safari, and Internet Explorer 9 (or later).
       </p>
 
-      <h2 id="telecommuting">6. Does Intake work while I am telecommuting?</h2>
+      <h2 id="telecommuting">Does Intake work while I am telecommuting?</h2>
       <p>Yes, you can use Intake while connected to the VA network via VPN.
       </p>
+      
+      <h2 id="lob-bva-appeal">What should I do if my Line of Business receives a Board Appeal</h2>
+      <p>If your business receives a Board Appeal (VA Form 10182 Notice of Disagreement), you should not attempt to intake it, but instead forward it immediately to the Board at:<br>
+        <br>
+        Board of Veterans' Appeals<br>
+        P.O. Box 27063<br>
+        Washington, DC 20038<br>
+        FAX: 844-678-8979
+      </p>
 
-      <h2 id="encounter-problems">7. What should I do if I encounter problems?</h2>
+      <h2 id="encounter-problems">What should I do if I encounter problems?</h2>
       <p>If you encounter any problems while using Intake, contact the Caseflow Product Support Team
     by calling 1-844-876-5548 or send an email to <a href="mailto: caseflow@va.gov">caseflow@va.gov</a>. They can be reached from 8:00AM to 8:00PM EST, Monday through Friday.
       </p>
@@ -93,13 +94,13 @@ class IntakeHelp extends React.Component {
         <img className="cf-help-image" alt="Send Intake Feedback" src="/assets/help/intake-feedback.jpg" />
       </p>
 
-      <h2 id="suggestions">8. How can I share my suggestions for improving Intake?</h2>
+      <h2 id="suggestions">How can I share my suggestions for improving Intake?</h2>
       <p>You can use the "Send feedback" link located in the dropdown menu next to your username or
     the “Send feedback” link located at the bottom right-hand corner of the screen to share your
     ideas for improving Intake or to report an issue.
       </p>
 
-      <h2 id="still-need-help">9. What if I still need help?</h2>
+      <h2 id="still-need-help">What if I still need help?</h2>
       <p>If you require further assistance after reviewing the <a href="#faq">FAQs</a>, <a target="_blank" rel="noopener noreferrer" href="/assets/Intake_Quick_Reference_Guide.pdf">Quick Reference Guide</a>, or <a target="_blank" rel="noopener noreferrer" href="/assets/Intake_Training_Guide.pdf">Training Guide</a>, please contact the Caseflow Product Support Team by phone (1-844-876-5548) or email <a href="mailto: caseflow@va.gov">(caseflow@va.gov)</a>. We look forward to assisting you.
       </p>
 
