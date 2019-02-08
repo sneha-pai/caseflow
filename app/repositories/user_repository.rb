@@ -3,14 +3,16 @@
 class UserRepository
   class << self
     def user_info_from_vacols(css_id)
-      staff_record = VACOLS::Staff.find_by(sdomainid: css_id)
-      {
-        uniq_id: vacols_uniq_id(staff_record),
-        roles: vacols_roles(staff_record),
-        attorney_id: vacols_attorney_id(staff_record),
-        group_id: vacols_group_id(staff_record),
-        full_name: vacols_full_name(staff_record)
-      }
+      MetricsService.record("VACOLS: Get user info for #{css_id}", service: :vacols, name: "user_info_from_vacols") do
+        staff_record = VACOLS::Staff.find_by(sdomainid: css_id)
+        {
+          uniq_id: vacols_uniq_id(staff_record),
+          roles: vacols_roles(staff_record),
+          attorney_id: vacols_attorney_id(staff_record),
+          group_id: vacols_group_id(staff_record),
+          full_name: vacols_full_name(staff_record)
+        }
+      end
     end
 
     def user_info_for_idt(css_id)
