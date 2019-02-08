@@ -33,7 +33,7 @@ class QueueRepository
 
         # Run queries to fetch different types of data so the # of queries doesn't increase with
         # the # of appeals. Combine that data manually.
-        case_records = QueueRepository.appeal_info_query(vacols_ids)
+        case_records = QueueRepository.find_case_records(vacols_ids)
         aod_by_appeal = aod_query(vacols_ids)
         hearings_by_appeal = HearingRepository.hearings_for_appeals(vacols_ids)
         issues_by_appeal = VACOLS::CaseIssue.descriptions(vacols_ids)
@@ -108,9 +108,8 @@ class QueueRepository
       filter_duplicate_tasks(records)
     end
 
-    def appeal_info_query(vacols_ids)
-      VACOLS::Case.includes(:folder, :correspondent, :representatives)
-        .find(vacols_ids)
+    def find_case_records(vacols_ids)
+      VACOLS::Case.includes(:folder, :correspondent, :representatives).find(vacols_ids)
     end
 
     def aod_query(vacols_ids)

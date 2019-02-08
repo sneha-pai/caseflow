@@ -38,22 +38,22 @@ class AppealRepository
     end
   end
 
-  def self.find_case_record(id)
+  def self.find_case_records(vacols_ids)
     # Oracle cannot load more than 1000 records at a time
-    if id.is_a?(Array)
-      id.in_groups_of(1000, false).map do |group|
+    if vacols_ids.is_a?(Array)
+      vacols_ids.in_groups_of(1000, false).map do |group|
         VACOLS::Case.includes(:folder, :correspondent, :representatives, :case_issues).find(group)
       end.flatten
     else
-      VACOLS::Case.includes(:folder, :correspondent, :representatives, :case_issues).find(id)
+      VACOLS::Case.includes(:folder, :correspondent, :representatives, :case_issues).find(vacols_ids)
     end
   end
 
-  def self.vacols_records_for_appeals(ids)
+  def self.vacols_records_for_appeals(vacols_ids)
     MetricsService.record("VACOLS: eager_load_legacy_appeals_batch",
                           service: :vacols,
                           name: "eager_load_legacy_appeals_batch") do
-      find_case_record(ids)
+      find_case_records(vacols_ids)
     end
   end
 
@@ -62,7 +62,7 @@ class AppealRepository
     case_record = MetricsService.record("VACOLS: load_vacols_data #{appeal.vacols_id}",
                                         service: :vacols,
                                         name: "load_vacols_appeal_data") do
-      find_case_record(appeal.vacols_id)
+      find_case_records(appeal.vacols_id)
     end
 
     set_vacols_values(appeal: appeal, case_record: case_record)
