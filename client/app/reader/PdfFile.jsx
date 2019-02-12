@@ -111,18 +111,6 @@ export class PdfFile extends React.PureComponent {
     if (nextProps.isVisible !== this.props.isVisible) {
       this.currentPage = 0;
     }
-
-    if (this.grid && nextProps.scale !== this.props.scale) {
-      // Set the scroll location based on the current page and where you
-      // are on that page scaled by the zoom factor.
-      const zoomFactor = nextProps.scale / this.props.scale;
-      const nonZoomedLocation = (this.scrollTop - this.getOffsetForPageIndex(this.rowStartIndex).scrollTop);
-
-      this.scrollLocation = {
-        page: this.rowStartIndex,
-        locationOnPage: nonZoomedLocation * zoomFactor
-      };
-    }
   }
 
   getPage = ({ rowIndex, columnIndex, style, isVisible }) => {
@@ -212,29 +200,34 @@ export class PdfFile extends React.PureComponent {
     if (this.props.jumpToPageNumber && this.clientHeight > 0) {
       const scrollToIndex = this.props.jumpToPageNumber ? pageIndexOfPageNumber(this.props.jumpToPageNumber) : -1;
 
-      this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
-      this.props.resetJumpToPage();
+      if (this.grid.props.columnCount === 1) {
+        this.grid.scrollToCell({
+          rowIndex: scrollToIndex,
+          columnIndex: 0
+        });
+      } else {
+        this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
+      }
     }
   }
 
   jumpToComment = () => {
     // We want to jump to the comment, after the react virtualized has initialized the scroll window.
     if (this.props.scrollToComment && this.clientHeight > 0) {
-      const pageIndex = pageIndexOfPageNumber(this.props.scrollToComment.page);
-      const transformedY = rotateCoordinates(this.props.scrollToComment,
-        this.pageDimensions(pageIndex), -this.props.rotation).y * this.props.scale;
-      const scrollToY = transformedY - (this.pageHeight(pageIndex) / 2);
+      const scrollToIndex = pageIndexOfPageNumber(this.props.scrollToComment.page) || -1;
 
-      this.scrollToPosition(pageIndex, scrollToY);
-      this.props.onScrollToComment(null);
-    }
-  }
+      console.log('getting inside here');
+      this.props.resetJumpToPage();
 
-  scrollWhenFinishedZooming = () => {
-    if (this.scrollLocation.page) {
-      this.scrollToPosition(this.scrollLocation.page, this.scrollLocation.locationOnPage);
-
-      this.scrollLocation = {};
+      if (this.grid.props.columnCount === 1) {
+        this.grid.scrollToCell({
+          rowIndex: scrollToIndex,
+          columnIndex: 0
+        });
+      } else {
+        this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
+      }
+      // this.props.onScrollToComment(null);
     }
   }
 
@@ -299,7 +292,6 @@ export class PdfFile extends React.PureComponent {
       }
 
       this.grid.recomputeGridSize();
-      this.scrollWhenFinishedZooming();
       this.jumpToPage();
       this.jumpToComment();
 
@@ -427,6 +419,7 @@ export class PdfFile extends React.PureComponent {
   })
 
   render() {
+
     if (this.props.loadError) {
       return <div>{this.displayErrorMessage()}</div>;
     }
@@ -449,6 +442,7 @@ export class PdfFile extends React.PureComponent {
 
           this.columnCount = Math.min(Math.max(Math.floor(width / this.getColumnWidth()), 1),
             this.props.pdfDocument.pdfInfo.numPages);
+          this.rowCount = Math.ceil(this.props.pdfDocument.pdfInfo.numPages / this.columnCount);
 
           let visibility = this.props.isVisible ? 'visible' : 'hidden';
 
@@ -465,7 +459,7 @@ export class PdfFile extends React.PureComponent {
             onSectionRendered={this.onSectionRendered}
             onScroll={this.onScroll}
             height={height}
-            rowCount={Math.ceil(this.props.pdfDocument.pdfInfo.numPages / this.columnCount)}
+            rowCount={this.rowCount}
             rowHeight={this.getRowHeight}
             cellRenderer={this.getPage}
             scrollToAlignment="start"
