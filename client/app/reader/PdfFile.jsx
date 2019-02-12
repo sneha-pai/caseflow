@@ -200,6 +200,8 @@ export class PdfFile extends React.PureComponent {
     if (this.props.jumpToPageNumber && this.clientHeight > 0) {
       const scrollToIndex = this.props.jumpToPageNumber ? pageIndexOfPageNumber(this.props.jumpToPageNumber) : -1;
 
+      console.log(scrollToIndex, 'scroll to index');
+      this.currentPage = scrollToIndex - 2;
       if (this.grid.props.columnCount === 1) {
         this.grid.scrollToCell({
           rowIndex: scrollToIndex,
@@ -215,10 +217,12 @@ export class PdfFile extends React.PureComponent {
   }
 
   jumpToComment = () => {
+    this.props.resetJumpToPage();
     // We want to jump to the comment, after the react virtualized has initialized the scroll window.
     if (this.props.scrollToComment && this.clientHeight > 0) {
       const scrollToIndex = pageIndexOfPageNumber(this.props.scrollToComment.page) || -1;
 
+      this.currentPage = scrollToIndex - 2;
       if (this.grid.props.columnCount === 1) {
         this.grid.scrollToCell({
           rowIndex: scrollToIndex,
@@ -281,7 +285,9 @@ export class PdfFile extends React.PureComponent {
 
   componentDidUpdate = (prevProps) => {
     if (this.grid && this.props.isVisible) {
+      console.log('changing');
       if (!prevProps.isVisible) {
+        console.log('in here');
         // eslint-disable-next-line react/no-find-dom-node
         const domNode = ReactDOM.findDOMNode(this.grid);
 
@@ -299,14 +305,18 @@ export class PdfFile extends React.PureComponent {
     }
 
     if (this.grid && prevProps.scrollToComment !== this.props.scrollToComment) {
+      console.log('inside first if');
       this.jumpToComment();
       this.props.onScrollToComment(null);
     }
 
     if (this.grid && prevProps.jumpToPageNumber !== this.props.jumpToPageNumber) {
+      console.log('inside second if');
       this.jumpToPage();
-    } else {
-      this.props.resetJumpToPage();
+    }
+
+    if (this.grid && this.props.scale !== prevProps.scale) {
+      this.jumpToPage();
     }
   }
 
@@ -316,30 +326,16 @@ export class PdfFile extends React.PureComponent {
 
   onPageChange = (index, clientHeight) => {
     this.currentPage = index;
-    this.props.onPageChange(pageNumberOfPageIndex(index), clientHeight / this.pageHeight(index));
+    console.log(this.currentPage, 'the current page');
+    this.props.onPageChange(pageNumberOfPageIndex(this.currentPage), clientHeight / this.pageHeight(index));
   }
 
-  onScroll = ({ clientHeight, scrollTop, scrollLeft }) => {
-    this.scrollTop = scrollTop;
-    this.scrollLeft = scrollLeft;
-
-    if (this.grid) {
-      let minIndex = 0;
-      let minDistance = Infinity;
-
-      _.range(0, this.props.pdfDocument.pdfInfo.numPages).forEach((index) => {
-        const offset = this.getOffsetForPageIndex(index, 'center');
-        const distance = Math.abs(offset.scrollTop - scrollTop);
-
-        if (distance < minDistance) {
-          minIndex = index;
-          minDistance = distance;
-        }
-      });
-
-      this.onPageChange(minIndex, clientHeight);
-    }
-  }
+  // onScroll = ({ clientHeight, scrollTop, scrollLeft }) => {
+  //   this.scrollTop = scrollTop;
+  //   this.scrollLeft = scrollLeft;
+  //   console.log(this.currentPage, 'the second current page');
+  //   this.onPageChange(pageNumberOfPageIndex(this.currentPage), clientHeight / this.pageHeight(this.currentPage));
+  // }
 
   getCenterOfVisiblePage = (scrollWindowBoundary, pageScrollBoundary, pageDimension, clientDimension) => {
     const scrolledLocationOnPage = (scrollWindowBoundary - pageScrollBoundary) / this.props.scale;
