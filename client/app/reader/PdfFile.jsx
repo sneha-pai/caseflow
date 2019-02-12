@@ -230,14 +230,6 @@ export class PdfFile extends React.PureComponent {
     }
   }
 
-  scrollWhenFinishedZooming = () => {
-    if (this.scrollLocation.page) {
-      this.scrollToPosition(this.scrollLocation.page, this.scrollLocation.locationOnPage);
-
-      this.scrollLocation = {};
-    }
-  }
-
   scrollToScrollTop = (pageIndex, locationOnPage = this.props.scrollTop) => {
     this.scrollToPosition(pageIndex, locationOnPage);
     this.props.setDocScrollPosition(null);
@@ -299,9 +291,20 @@ export class PdfFile extends React.PureComponent {
       }
 
       this.grid.recomputeGridSize();
-      this.scrollWhenFinishedZooming();
-      this.jumpToPage();
-      this.jumpToComment();
+      if (this.grid && prevProps.scrollToComment !== this.props.scrollToComment) {
+        console.log('inside first if');
+        this.jumpToComment();
+        this.props.onScrollToComment(null);
+      }
+
+      if (this.grid && prevProps.jumpToPageNumber !== this.props.jumpToPageNumber) {
+        console.log('inside second if');
+        this.jumpToPage();
+      }
+
+      if (this.grid && this.props.scale !== prevProps.scale) {
+        this.jumpToPage();
+      }
 
       if (this.props.searchText && this.props.matchesPerPage.length) {
         this.scrollToSearchTerm(prevProps);
