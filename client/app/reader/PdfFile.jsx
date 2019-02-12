@@ -205,9 +205,12 @@ export class PdfFile extends React.PureComponent {
           rowIndex: scrollToIndex,
           columnIndex: 0
         });
+
       } else {
         this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
+
       }
+
     }
   }
 
@@ -215,9 +218,6 @@ export class PdfFile extends React.PureComponent {
     // We want to jump to the comment, after the react virtualized has initialized the scroll window.
     if (this.props.scrollToComment && this.clientHeight > 0) {
       const scrollToIndex = pageIndexOfPageNumber(this.props.scrollToComment.page) || -1;
-
-      console.log('getting inside here');
-      this.props.resetJumpToPage();
 
       if (this.grid.props.columnCount === 1) {
         this.grid.scrollToCell({
@@ -227,7 +227,7 @@ export class PdfFile extends React.PureComponent {
       } else {
         this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
       }
-      // this.props.onScrollToComment(null);
+
     }
   }
 
@@ -292,12 +292,21 @@ export class PdfFile extends React.PureComponent {
       }
 
       this.grid.recomputeGridSize();
-      this.jumpToPage();
-      this.jumpToComment();
 
       if (this.props.searchText && this.props.matchesPerPage.length) {
         this.scrollToSearchTerm(prevProps);
       }
+    }
+
+    if (this.grid && prevProps.scrollToComment !== this.props.scrollToComment) {
+      this.jumpToComment();
+      this.props.onScrollToComment(null);
+    }
+
+    if (this.grid && prevProps.jumpToPageNumber !== this.props.jumpToPageNumber) {
+      this.jumpToPage();
+    } else {
+      this.props.resetJumpToPage();
     }
   }
 
