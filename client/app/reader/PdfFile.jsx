@@ -207,13 +207,25 @@ export class PdfFile extends React.PureComponent {
     });
   }
 
-  jumpToPage = () => {
+  jumpToPage = (isZooming) => {
     // We want to jump to the page, after the react virtualized has initialized the scroll window.
     if (this.props.jumpToPageNumber && this.clientHeight > 0) {
       const scrollToIndex = this.props.jumpToPageNumber ? pageIndexOfPageNumber(this.props.jumpToPageNumber) : -1;
 
       this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
-      this.props.resetJumpToPage();
+      this.previousJumpToPage = this.props.jumpToPageNumber;
+      setTimeout(this.props.resetJumpToPage, 1000);
+    }
+    if (isZooming && this.clientHeight > 0) {
+      const scrollToIndex = this.previousJumpToPage - 1;
+
+      this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
+    }
+
+    if (this.props.jumpToPageNumber === null && this.clientHeight) {
+      const scrollToIndex = this.previousJumpToPage - 1;
+
+      this.grid.scrollToCell(this.pageRowAndColumn(scrollToIndex));
     }
   }
 
@@ -221,11 +233,8 @@ export class PdfFile extends React.PureComponent {
     // We want to jump to the comment, after the react virtualized has initialized the scroll window.
     if (this.props.scrollToComment && this.clientHeight > 0) {
       const pageIndex = pageIndexOfPageNumber(this.props.scrollToComment.page);
-      const transformedY = rotateCoordinates(this.props.scrollToComment,
-        this.pageDimensions(pageIndex), -this.props.rotation).y * this.props.scale;
-      const scrollToY = transformedY - (this.pageHeight(pageIndex) / 2);
 
-      this.scrollToPosition(pageIndex, scrollToY);
+      this.grid.scrollToCell(this.pageRowAndColumn(pageIndex));
       this.props.onScrollToComment(null);
     }
   }
@@ -297,13 +306,14 @@ export class PdfFile extends React.PureComponent {
         this.props.onScrollToComment(null);
       }
 
-      if (this.grid && prevProps.jumpToPageNumber !== this.props.jumpToPageNumber) {
+      if (this.grid && this.props.jumpToPageNumber && prevProps.jumpToPageNumber !== this.props.jumpToPageNumber) {
         console.log('inside second if');
         this.jumpToPage();
       }
 
       if (this.grid && this.props.scale !== prevProps.scale) {
-        this.jumpToPage();
+        console.log('im in here', this.previousJumpToPage);
+        this.jumpToPage(true);
       }
 
       if (this.props.searchText && this.props.matchesPerPage.length) {
@@ -321,27 +331,27 @@ export class PdfFile extends React.PureComponent {
     this.props.onPageChange(pageNumberOfPageIndex(index), clientHeight / this.pageHeight(index));
   }
 
-  onScroll = ({ clientHeight, scrollTop, scrollLeft }) => {
-    this.scrollTop = scrollTop;
-    this.scrollLeft = scrollLeft;
+  // onScroll = ({ clientHeight, scrollTop, scrollLeft }) => {
+  //   this.scrollTop = scrollTop;
+  //   this.scrollLeft = scrollLeft;
 
-    if (this.grid) {
-      let minIndex = 0;
-      let minDistance = Infinity;
+  //   if (this.grid) {
+  //     let minIndex = 0;
+  //     let minDistance = Infinity;
 
-      _.range(0, this.props.pdfDocument.pdfInfo.numPages).forEach((index) => {
-        const offset = this.getOffsetForPageIndex(index, 'center');
-        const distance = Math.abs(offset.scrollTop - scrollTop);
+  //     _.range(0, this.props.pdfDocument.pdfInfo.numPages).forEach((index) => {
+  //       const offset = this.getOffsetForPageIndex(index, 'center');
+  //       const distance = Math.abs(offset.scrollTop - scrollTop);
 
-        if (distance < minDistance) {
-          minIndex = index;
-          minDistance = distance;
-        }
-      });
+  //       if (distance < minDistance) {
+  //         minIndex = index;
+  //         minDistance = distance;
+  //       }
+  //     });
 
-      this.onPageChange(minIndex, clientHeight);
-    }
-  }
+  //     this.onPageChange(minIndex, clientHeight);
+  //   }
+  // }
 
   getCenterOfVisiblePage = (scrollWindowBoundary, pageScrollBoundary, pageDimension, clientDimension) => {
     const scrolledLocationOnPage = (scrollWindowBoundary - pageScrollBoundary) / this.props.scale;
