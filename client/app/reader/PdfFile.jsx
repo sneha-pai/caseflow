@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+/* eslint-disable no-debugger */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -234,8 +235,13 @@ export class PdfFile extends React.PureComponent {
     if (this.props.scrollToComment && this.clientHeight > 0) {
       const pageIndex = pageIndexOfPageNumber(this.props.scrollToComment.page);
 
+      this.prevCommentIndex = pageIndex;
       this.grid.scrollToCell(this.pageRowAndColumn(pageIndex));
       this.props.onScrollToComment(null);
+    }
+
+    if (!this.props.scrollToComment && this.clientHeight > 0) {
+      this.grid.scrollToCell(this.pageRowAndColumn(this.prevCommentIndex));
     }
   }
 
@@ -288,6 +294,7 @@ export class PdfFile extends React.PureComponent {
   }
 
   componentDidUpdate = (prevProps) => {
+    console.log(this.props.scrollToComment, 'jump to comment');
     if (this.grid && this.props.isVisible) {
       if (!prevProps.isVisible) {
         // eslint-disable-next-line react/no-find-dom-node
@@ -331,27 +338,27 @@ export class PdfFile extends React.PureComponent {
     this.props.onPageChange(pageNumberOfPageIndex(index), clientHeight / this.pageHeight(index));
   }
 
-  // onScroll = ({ clientHeight, scrollTop, scrollLeft }) => {
-  //   this.scrollTop = scrollTop;
-  //   this.scrollLeft = scrollLeft;
+  onScroll = ({ clientHeight, scrollTop, scrollLeft }) => {
+    this.scrollTop = scrollTop;
+    this.scrollLeft = scrollLeft;
 
-  //   if (this.grid) {
-  //     let minIndex = 0;
-  //     let minDistance = Infinity;
+    if (this.grid) {
+      let minIndex = 0;
+      let minDistance = Infinity;
 
-  //     _.range(0, this.props.pdfDocument.pdfInfo.numPages).forEach((index) => {
-  //       const offset = this.getOffsetForPageIndex(index, 'center');
-  //       const distance = Math.abs(offset.scrollTop - scrollTop);
+      _.range(0, this.props.pdfDocument.pdfInfo.numPages).forEach((index) => {
+        const offset = this.getOffsetForPageIndex(index, 'center');
+        const distance = Math.abs(offset.scrollTop - scrollTop);
 
-  //       if (distance < minDistance) {
-  //         minIndex = index;
-  //         minDistance = distance;
-  //       }
-  //     });
+        if (distance < minDistance) {
+          minIndex = index;
+          minDistance = distance;
+        }
+      });
 
-  //     this.onPageChange(minIndex, clientHeight);
-  //   }
-  // }
+      this.onPageChange(minIndex, clientHeight);
+    }
+  }
 
   getCenterOfVisiblePage = (scrollWindowBoundary, pageScrollBoundary, pageDimension, clientDimension) => {
     const scrolledLocationOnPage = (scrollWindowBoundary - pageScrollBoundary) / this.props.scale;

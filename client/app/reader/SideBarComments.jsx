@@ -13,9 +13,10 @@ import {
 } from '../reader/AnnotationLayer/AnnotationActions';
 
 class SideBarComments extends PureComponent {
-  handleAddClick = (event) => {
+  handleAddClick = () => {
     this.props.startPlacingAnnotation(INTERACTION_TYPES.VISIBLE_UI);
-    event.stopPropagation();
+    console.log(INTERACTION_TYPES.VISIBLE_UI);
+    // event.stopPropagation();
   }
 
   stopPlacingAnnotation = () => this.props.stopPlacingAnnotation('from-canceling-new-annotation');
