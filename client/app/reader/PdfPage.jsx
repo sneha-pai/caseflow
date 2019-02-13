@@ -6,7 +6,7 @@ import CommentLayer from './CommentLayer';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { setSearchIndexToHighlight } from './PdfSearch/PdfSearchActions';
-import { setDocScrollPosition } from './PdfViewer/PdfViewerActions';
+import { setDocScrollPosition, resetJumpToPage } from './PdfViewer/PdfViewerActions';
 import { getSearchTerm, getCurrentMatchIndex, getMatchesPerPageInFile } from '../reader/selectors';
 import { bindActionCreators } from 'redux';
 import { PDF_PAGE_HEIGHT, PDF_PAGE_WIDTH, SEARCH_BAR_HEIGHT, PAGE_DIMENSION_SCALE, PAGE_MARGIN
@@ -125,12 +125,17 @@ export class PdfPage extends React.PureComponent {
       this.isDrawing = false;
 
       // If the scale has changed, draw the page again at the latest scale.
-      if (currentScale !== this.props.scale && page) {
+      const isZooming = currentScale !== this.props.scale && page;
+
+      if (isZooming) {
+        console.log('we are drawing');
+
         return this.drawPage(page);
       }
     }).
-      catch(() => {
+      catch((err) => {
         // We might need to do something else here.
+        console.log(err, 'the error in catch pdf page.jsx');
         this.isDrawing = false;
       });
   }
@@ -333,6 +338,7 @@ PdfPage.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     setDocScrollPosition,
+    resetJumpToPage,
     setSearchIndexToHighlight
   }, dispatch)
 });

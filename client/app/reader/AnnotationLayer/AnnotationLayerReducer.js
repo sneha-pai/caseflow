@@ -27,6 +27,7 @@ const initialState = {
   shareAnnotationModalIsOpenFor: null,
   placedButUnsavedAnnotation: null,
   isPlacingAnnotation: false,
+  annotationPlaced: false,
 
   /**
    * `editingAnnotations` is an object of annotations that are currently being edited.
@@ -62,7 +63,8 @@ export const annotationLayerReducer = (state = initialState, action = {}) => {
         $set: null
       },
       placedButUnsavedAnnotation: { $set: null },
-      isPlacingAnnotation: { $set: false }
+      isPlacingAnnotation: { $set: false },
+      annotationPlaced: { $set: fakse }
     });
   case Constants.RECEIVE_ANNOTATIONS:
     return update(
@@ -247,11 +249,13 @@ export const annotationLayerReducer = (state = initialState, action = {}) => {
           type: 'point'
         }
       },
-      isPlacingAnnotation: { $set: false }
+      isPlacingAnnotation: { $set: false },
+      annotationPlaced: { $set: true }
     });
   case Constants.START_PLACING_ANNOTATION:
     return update(state, {
-      isPlacingAnnotation: { $set: true }
+      isPlacingAnnotation: { $set: true },
+      annotationPlaced: { $set: false }
     });
   case Constants.UPDATE_NEW_ANNOTATION_CONTENT:
     return update(state, {

@@ -52,11 +52,11 @@ export class DecisionReviewer extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.clearPlacingAnnotationState);
+    // window.removeEventListener('click', this.clearPlacingAnnotationState);
   }
 
   componentDidMount = () => {
-    window.addEventListener('click', this.clearPlacingAnnotationState);
+    // window.addEventListener('click', this.clearPlacingAnnotationState);
     if (this.props.singleDocumentMode) {
       fireSingleDocumentModeEvent();
     }

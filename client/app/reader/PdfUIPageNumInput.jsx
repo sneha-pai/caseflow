@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { jumpToPage } from '../reader/PdfViewer/PdfViewerActions';
+import { jumpToPage, resetJumpToPage } from '../reader/PdfViewer/PdfViewerActions';
 import { isValidWholeNumber } from './utils';
 import TextField from '../components/TextField';
+import _ from 'lodash';
 
 const ENTER_KEY = 'Enter';
 const RADIX = 10;
@@ -39,7 +40,9 @@ export class PdfUIPageNumInput extends React.PureComponent {
       // don't jump to the page unless it's a valid page entry
       // and it's not the current page
       if (this.props.currentPage !== newPageNumber) {
-        this.props.jumpToPage(newPageNumber, this.props.docId);
+        this.props.resetJumpToPage();
+        _.delay(this.props.jumpToPage, 1000, newPageNumber, this.props.docId);
+        // this.props.jumpToPage(newPageNumber, this.props.docId);
       }
     }
   }
@@ -80,7 +83,8 @@ PdfUIPageNumInput.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  jumpToPage
+  jumpToPage,
+  resetJumpToPage
 }, dispatch);
 
 export default connect(

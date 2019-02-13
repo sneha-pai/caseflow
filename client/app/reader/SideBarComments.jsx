@@ -15,8 +15,9 @@ import {
 class SideBarComments extends PureComponent {
   handleAddClick = () => {
     this.props.startPlacingAnnotation(INTERACTION_TYPES.VISIBLE_UI);
-    console.log(INTERACTION_TYPES.VISIBLE_UI);
-    // event.stopPropagation();
+    // console.log(INTERACTION_TYPES.VISIBLE_UI);
+    event.stopPropagation();
+    // console.log('being clicked');
   }
 
   stopPlacingAnnotation = () => this.props.stopPlacingAnnotation('from-canceling-new-annotation');
@@ -26,9 +27,10 @@ class SideBarComments extends PureComponent {
       comments
     } = this.props;
 
-    return <div>
+    return <div >
       <span className="cf-right-side cf-add-comment-button">
         <Button
+
           name="AddComment"
           onClick={this.handleAddClick}>
           <span>{plusIcon()} &nbsp; Add a comment</span>
@@ -40,6 +42,7 @@ class SideBarComments extends PureComponent {
         <div className="cf-pdf-comment-list">
           {this.props.placedButUnsavedAnnotation &&
             <EditComment
+
               comment={this.props.placedButUnsavedAnnotation}
               id="addComment"
               disableOnEmpty
