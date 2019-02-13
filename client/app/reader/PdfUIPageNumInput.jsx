@@ -39,11 +39,12 @@ export class PdfUIPageNumInput extends React.PureComponent {
       this.setPageNumber(newPageNumber);
       // don't jump to the page unless it's a valid page entry
       // and it's not the current page
-      if (this.props.currentPage !== newPageNumber) {
-        this.props.resetJumpToPage();
-        _.delay(this.props.jumpToPage, 1000, newPageNumber, this.props.docId);
-        // this.props.jumpToPage(newPageNumber, this.props.docId);
-      }
+      // if (this.props.currentPage !== newPageNumber) {
+      this.props.resetJumpToPage();
+      _.delay(this.props.jumpToPage, 1000, newPageNumber, this.props.docId);
+      console.log('am i being called');
+      // this.props.jumpToPage(newPageNumber, this.props.docId);
+      // }
     }
   }
 

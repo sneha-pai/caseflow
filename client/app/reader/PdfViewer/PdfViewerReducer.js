@@ -42,6 +42,14 @@ const setErrorMessageState = (state, errorType, isVisible, errorMsg = null) =>
     }
   });
 
+// const handlePageNums = (state, payload) => {
+//   update(state, {
+
+//   });
+// };
+
+// const handleJumpToPage = (state, payload) => handlePageNums(state, payload);
+
 const hideErrorMessage = (state, errorType, errorMsg = null) => setErrorMessageState(state, errorType, false, errorMsg);
 const showErrorMessage = (state, errorType, errorMsg = null) => setErrorMessageState(state, errorType, true, errorMsg);
 
@@ -131,6 +139,7 @@ export const pdfViewerReducer = (state = initialState, action = {}) => {
   case Constants.RESET_JUMP_TO_PAGE:
     return update(state, {
       $merge: {
+        prevJumpToPageNumber: state.jumpToPageNumber,
         jumpToPageNumber: null
       }
     });

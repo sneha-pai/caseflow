@@ -86,6 +86,7 @@ export class PdfUI extends React.Component {
     }
 
     if (prevProps.rotation !== this.props.rotation) {
+      console.log('is this the jump');
       this.props.jumpToPage(this.state.currentPage, this.props.doc.id);
     }
   }

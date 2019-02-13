@@ -64,7 +64,7 @@ export const annotationLayerReducer = (state = initialState, action = {}) => {
       },
       placedButUnsavedAnnotation: { $set: null },
       isPlacingAnnotation: { $set: false },
-      annotationPlaced: { $set: fakse }
+      annotationPlaced: { $set: false }
     });
   case Constants.RECEIVE_ANNOTATIONS:
     return update(
