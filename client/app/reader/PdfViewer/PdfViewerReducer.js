@@ -165,6 +165,10 @@ export const pdfViewerReducer = (state = initialState, action = {}) => {
     return update(state, {
       windowingOverscan: { $set: action.payload.overscanValue }
     });
+  case Constants.UPDATE_PAGE_NUMBER:
+    return update(state, {
+      currentPageNumber: { $set: action.payload.currentPageNumber }
+    });
   default:
     return state;
   }

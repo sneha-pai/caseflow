@@ -11,6 +11,7 @@ import PdfViewer from './PdfViewer';
 import PdfListView from './PdfListView';
 import ReaderLoadingScreen from './ReaderLoadingScreen';
 import { onScrollToComment } from '../reader/Pdf/PdfActions';
+import { resetJumpToPage } from '../reader/PdfViewer/PdfViewerActions';
 import { setCategoryFilter } from '../reader/DocumentList/DocumentListActions';
 import { stopPlacingAnnotation } from '../reader/AnnotationLayer/AnnotationActions';
 import { CATEGORIES } from './analytics';
@@ -64,6 +65,8 @@ export class DecisionReviewer extends React.PureComponent {
 
   onJumpToComment = (history, vacolsId) => (comment) => () => {
     this.showPdf(history, vacolsId)(comment.documentId)();
+    // this is the exact point we want to clear the jumpToPageNumber
+    this.props.resetJumpToPage();
     this.props.onScrollToComment(comment);
   }
 
@@ -194,6 +197,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     onScrollToComment,
+    resetJumpToPage,
     setCategoryFilter,
     stopPlacingAnnotation
   }, dispatch)

@@ -43,3 +43,8 @@ export const clearDocumentLoadError = (file) => ({
   type: Constants.CLEAR_DOCUMENT_LOAD_ERROR,
   payload: { file }
 });
+
+export const updatePDFInputPage = (pageNumber) => ({
+  type: Constants.UPDATE_PDF_INPUT_PAGE,
+  payload: { pageNumber }
+});

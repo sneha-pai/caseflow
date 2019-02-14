@@ -131,6 +131,7 @@ export class PdfUI extends React.Component {
           numPages={this.props.numPages}
           docId={this.props.doc.id}
           onPageChange={this.onPageChange}
+          pdfInputPageNumber={this.props.pdfInputPageNumber}
         />
         of {this.props.numPages}
       </span>;
@@ -338,6 +339,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     ..._.pick(state.documentList, 'filteredDocIds'),
+    ..._.pick(state.pdf, 'pdfInputPageNumber'),
     docListIsFiltered: docListIsFiltered(state),
     loadError: state.pdf.documentErrors[props.doc.content_url],
     isPlacingAnnotation: state.annotationLayer.isPlacingAnnotation,

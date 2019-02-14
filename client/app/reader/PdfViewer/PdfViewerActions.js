@@ -151,4 +151,12 @@ export const handleSetOverscanValue = (overscanValue) => ({
   payload: {
     overscanValue
   }
+
+});
+
+export const updatePageNumberInStore = (currentPageNumber) => ({
+  type: Constants.UPDATE_PAGE_NUMBER,
+  payload: {
+    currentPageNumber
+  }
 });

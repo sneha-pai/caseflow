@@ -73,6 +73,10 @@ export const pdfReducer = (state = initialState, action = {}) => {
         }
       }
     });
+  case Constants.UPDATE_PDF_INPUT_PAGE:
+    return update(state, {
+      pdfInputPageNumber: { $set: action.payload.pageNumber }
+    });
   default:
     return state;
   }

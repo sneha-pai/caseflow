@@ -12,19 +12,19 @@ import StatusMessage from '../components/StatusMessage';
 import { PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, ANNOTATION_ICON_SIDE_LENGTH, PAGE_DIMENSION_SCALE, PAGE_MARGIN
 } from './constants';
 import { setPdfDocument, clearPdfDocument, onScrollToComment, setDocumentLoadError, clearDocumentLoadError,
-  setPageDimensions } from '../reader/Pdf/PdfActions';
+  setPageDimensions, updatePDFInputPage } from '../reader/Pdf/PdfActions';
 import { updateSearchIndexPage, updateSearchRelativeIndex } from '../reader/PdfSearch/PdfSearchActions';
 import ApiUtil from '../util/ApiUtil';
 import PdfPage from './PdfPage';
 import { PDFJS } from 'pdfjs-dist';
 import { Grid, AutoSizer } from 'react-virtualized';
-import { isUserEditingText, pageIndexOfPageNumber, pageNumberOfPageIndex, rotateCoordinates } from './utils';
+import { isUserEditingText, pageIndexOfPageNumber, pageNumberOfPageIndex } from './utils';
 import { startPlacingAnnotation, showPlaceAnnotationIcon
 } from '../reader/AnnotationLayer/AnnotationActions';
 import { INTERACTION_TYPES } from '../reader/analytics';
 import { getCurrentMatchIndex, getMatchesPerPageInFile, getSearchTerm } from './selectors';
 
-export class PdfFile extends React.PureComponent {
+export class PdfFile extends React.Component {
   constructor(props) {
     super(props);
 
@@ -54,7 +54,7 @@ export class PdfFile extends React.PureComponent {
     window.addEventListener('keydown', this.keyListener);
 
     this.props.clearDocumentLoadError(this.props.file);
-    this.props.resetJumpToPage();
+
     // We have to set withCredentials to true since we're requesting the file from a
     // different domain (eFolder), and still need to pass our credentials to authenticate.
 
@@ -79,10 +79,6 @@ export class PdfFile extends React.PureComponent {
         this.loadingTask = null;
         this.props.setDocumentLoadError(this.props.file);
       });
-  }
-
-  componentWillUnmount() {
-    this.props.resetJumpToPage();
   }
 
   setPageDimensions = (pdfDocument) => {
@@ -111,9 +107,15 @@ export class PdfFile extends React.PureComponent {
       this.pdfDocument.destroy();
       this.props.clearPdfDocument(this.props.file, this.pdfDocument);
     }
+    this.props.onScrollToComment(null);
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.props.currentPageNumber);
+    console.log(nextProps.currentPageNumber);
+    console.log(nextProps.jumpToPageNumber);
+    console.log(nextProps.scrollToComment, this.props.scrollToComment, 'Scroll TO COMMENTS FINAL', 'jump',);
+    // console.log(nextProps.jumpToPageNumber);
     if (nextProps.isVisible !== this.props.isVisible) {
       this.currentPage = 0;
     }
@@ -127,7 +129,7 @@ export class PdfFile extends React.PureComponent {
       const nonZoomedLocation = (this.scrollTop - this.getOffsetForPageIndex(this.rowStartIndex).scrollTop);
 
       this.scrollLocation = {
-        page: this.rowStartIndex,
+        page: nextProps.currentPageNumber,
         locationOnPage: nonZoomedLocation * zoomFactor
       };
     }
@@ -221,49 +223,68 @@ export class PdfFile extends React.PureComponent {
       scrollTop: Math.max(position.scrollTop + locationOnPage, 0)
     });
   }
-  handleAnnotation = (prevProps) => {
-    console.log('handling annotation');
-    console.log(this.props.annotationPlaced, 'has the annotation been placed');
-    console.log(this.props.isPlacingAnnotation, 'in thhe middle of placing an annotation');
-    console.log('the prev props', prevProps);
+  handleAnnotation = (initialAnnotationIconState) => {
+
     const scrollTop = 800;
     const scrollToIndex = this.props.jumpToPageNumber ? this.props.jumpToPageNumber - 1 : 0;
     const columnInfo = this.pageRowAndColumn(scrollToIndex);
 
+    // console.log('column in fo', columnInfo);
     this.grid.scrollToCell(columnInfo);
-    if (prevProps.isPlacingAnnotation !== this.props.isPlacingAnnotation) {
-      console.log('once hopefully');
+    if (initialAnnotationIconState !== this.props.isPlacingAnnotation) {
+      // console.log('once', scrollToIndex);
       this.scrollToScrollTop(scrollToIndex, scrollTop);
     }
   }
 
   jumpToPage = () => {
-    const scrollToIndex = this.props.jumpToPageNumber ? this.props.jumpToPageNumber - 1 : 0;
+    // console.log('are we jumpting');
+    this.prevJumpToPage = this.props.jumpToPageNumber ? this.props.jumpToPageNumber : 0;
+    // console.log(this.prevJumpToPage, 'prev');
+    let scrollToIndex = this.props.jumpToPageNumber ? this.props.jumpToPageNumber - 1 : this.prevJumpToPage;
+
+    if (isNaN(scrollToIndex)) {
+      scrollToIndex = 0;
+    }
     const columnInfo = this.pageRowAndColumn(scrollToIndex);
 
     this.grid.scrollToCell(columnInfo);
     const scrollTop = this.props.scale > 1.8 ? 400 : 0;
 
     this.scrollToScrollTop(scrollToIndex, scrollTop);
+
   }
   // TODO: this, and scrolling.
   jumpToComment = () => {
+    console.log('are we jumpting to comment');
     // We want to jump to the comment, after the react virtualized has initialized the scroll window.
-    if (this.props.scrollToComment && this.clientHeight > 0) {
+    if (this.clientHeight > 0) {
       const pageIndex = pageIndexOfPageNumber(this.props.scrollToComment.page);
+      const columnInfo = this.pageRowAndColumn(pageIndex);
 
-      this.prevCommentIndex = pageIndex;
-      this.grid.scrollToCell(this.pageRowAndColumn(pageIndex));
-      this.props.onScrollToComment(null);
-    }
+      this.grid.scrollToCell(columnInfo);
+      const scrollTop = this.props.scale > 1.8 ? 400 : 0;
 
-    if (!this.props.scrollToComment && this.clientHeight > 0) {
-      this.grid.scrollToCell(this.pageRowAndColumn(this.prevCommentIndex));
+      this.props.updatePDFInputPage(this.props.scrollToComment.page);
+      setTimeout(this.scrollToScrollTop, 200, pageIndex, scrollTop);
+      // const transformedY = rotateCoordinates(this.props.scrollToComment,
+
+      // // this.grid.scrollToCell(this.pageRowAndColumn(pageIndex));
+      //   this.pageDimensions(pageIndex), -this.props.rotation).y * this.props.scale;
+
+      // const scrollToY = transformedY - (this.pageHeight(pageIndex) / 2);
+
+      // this.scrollToPosition(pageIndex, scrollToY);
+      // this.onPageChange(pageIndex, this.clientHeight);
+      // // this.props.onScrollToComment(null);
+
     }
+    // setTimeout(this.props.onScrollToComment, 1500, null);
+
   }
 
   scrollToScrollTop = (pageIndex, locationOnPage = this.props.scrollTop) => {
-    console.log('args to scroll', pageIndex, locationOnPage);
+    // console.log('args to scroll', pageIndex, locationOnPage);
     this.scrollToPosition(pageIndex, locationOnPage);
     this.currentPage = pageIndex + 1;
 
@@ -314,6 +335,7 @@ export class PdfFile extends React.PureComponent {
   scrollWhenFinishedZooming = () => {
 
     if (this.scrollLocation.page) {
+      console.log(this.scrollLocation.page, 'scroll location page');
       this.grid.scrollToCell(this.pageRowAndColumn(this.scrollLocation.page));
       this.scrollLocation = {};
     }
@@ -332,26 +354,27 @@ export class PdfFile extends React.PureComponent {
         domNode.focus();
       }
 
-      console.log('component is updating....');
+      console.log('component is updating.... scroll to comment: ', this.props.scrollToComment, this.props.jumpToPageNumber);
       this.grid.recomputeGridSize();
       this.scrollWhenFinishedZooming();
-      if (this.props.scrollToComment &&
-        prevProps.scrollToComment !== this.props.scrollToComment) {
-        console.log('a');
-        this.jumpToComment();
-        this.props.onScrollToComment(null);
-      } else if (this.props.jumpToPageNumber &&
+      if (this.props.jumpToPageNumber &&
         !this.props.isPlacingAnnotation && !this.props.annotationPlaced) {
         console.log('b');
         this.jumpToPage();
+      } else if (this.props.scrollToComment) {
+        console.log('a');
+        this.jumpToComment();
       } else if (this.props.isPlacingAnnotation || this.props.annotationPlaced) {
-        this.handleAnnotation(prevProps);
+        this.handleAnnotation(prevProps.isPlacingAnnotation);
       } else if (this.props.searchText && this.props.matchesPerPage.length) {
         console.log('d');
         this.scrollToSearchTerm(prevProps);
-      } else {
-        console.log('out here in an else');
       }
+      // else {
+      //   this.jumpToPage();
+      //   console.log('out here in an else');
+      // }
+      this.scrollWhenFinishedZooming();
 
     }
   }
@@ -553,6 +576,7 @@ const mapDispatchToProps = (dispatch) => ({
     setDocumentLoadError,
     clearDocumentLoadError,
     setDocScrollPosition,
+    updatePDFInputPage,
     updateSearchIndexPage,
     updateSearchRelativeIndex,
     setPageDimensions
@@ -566,8 +590,8 @@ const mapStateToProps = (state, props) => {
     annotationPlaced: state.annotationLayer.annotationPlaced,
     matchesPerPage: getMatchesPerPageInFile(state, props),
     searchText: getSearchTerm(state, props),
-    ..._.pick(state.pdfViewer, 'jumpToPageNumber', 'scrollTop'),
-    ..._.pick(state.pdf, 'pageDimensions', 'scrollToComment'),
+    ..._.pick(state.pdfViewer, 'jumpToPageNumber', 'scrollTop', 'currentPageNumber'),
+    ..._.pick(state.pdf, 'pageDimensions', 'scrollToComment', 'pdfInputPageNumber'),
     loadError: state.pdf.documentErrors[props.file],
     pdfDocument: state.pdf.pdfDocuments[props.file],
     windowingOverscan: state.pdfViewer.windowingOverscan,
