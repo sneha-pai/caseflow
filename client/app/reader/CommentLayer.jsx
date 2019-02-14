@@ -141,7 +141,8 @@ class CommentLayer extends PureComponent {
         this.props.rotation
       );
 
-      this.props.showPlaceAnnotationIcon(this.props.pageIndex, pageCoords);
+      console.log('CURR PAGE IN MOUSE LSITENER', pageCoords);
+      this.props.showPlaceAnnotationIcon(this.props.currentPageNumber - 1, pageCoords);
     }
   }
 
@@ -217,6 +218,7 @@ CommentLayer.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   ..._.pick(state.annotationLayer, 'placingAnnotationIconPageCoords'),
+  ..._.pick(state.pdfViewer, 'currentPageNumber'),
   comments: makeGetAnnotationsByDocumentId(state)(ownProps.documentId),
   isPlacingAnnotation: state.annotationLayer.isPlacingAnnotation,
   allAnnotations: state.annotationLayer.annotations,

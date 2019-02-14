@@ -51,7 +51,7 @@ export class PdfUIPageNumInput extends React.PureComponent {
     this.setState({
       pageNumber
     }, () => {
-      this.props.onScrollToComment(null);
+      // this.props.onScrollToComment(null);
       this.props.updatePageNumberInStore(pageNumber);
     });
   }

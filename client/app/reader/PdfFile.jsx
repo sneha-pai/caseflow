@@ -112,7 +112,7 @@ export class PdfFile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(this.props.currentPageNumber);
-    console.log(nextProps.currentPageNumber);
+    console.log(nextProps.currentPageNumber, 'next prop cur page');
     console.log(nextProps.jumpToPageNumber);
     console.log(nextProps.scrollToComment, this.props.scrollToComment, 'Scroll TO COMMENTS FINAL', 'jump',);
     // console.log(nextProps.jumpToPageNumber);
@@ -129,7 +129,7 @@ export class PdfFile extends React.Component {
       const nonZoomedLocation = (this.scrollTop - this.getOffsetForPageIndex(this.rowStartIndex).scrollTop);
 
       this.scrollLocation = {
-        page: nextProps.currentPageNumber,
+        page: nextProps.currentPageNumber - 1,
         locationOnPage: nonZoomedLocation * zoomFactor
       };
     }
