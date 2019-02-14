@@ -356,12 +356,12 @@ export class PdfFile extends React.Component {
 
       console.log('component is updating.... scroll to comment: ', this.props.scrollToComment, this.props.jumpToPageNumber);
       this.grid.recomputeGridSize();
-      this.scrollWhenFinishedZooming();
+      // this.scrollWhenFinishedZooming();
       if (this.props.jumpToPageNumber &&
         !this.props.isPlacingAnnotation && !this.props.annotationPlaced) {
         console.log('b');
         this.jumpToPage();
-      } else if (this.props.scrollToComment) {
+      } else if (this.props.scrollToComment && !this.props.jumpToPageNumber) {
         console.log('a');
         this.jumpToComment();
       } else if (this.props.isPlacingAnnotation || this.props.annotationPlaced) {
@@ -370,11 +370,9 @@ export class PdfFile extends React.Component {
         console.log('d');
         this.scrollToSearchTerm(prevProps);
       }
-      // else {
-      //   this.jumpToPage();
-      //   console.log('out here in an else');
-      // }
-      this.scrollWhenFinishedZooming();
+      if (prevProps.scale !== this.props.scale) {
+        this.scrollWhenFinishedZooming();
+      }
 
     }
   }
