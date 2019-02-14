@@ -133,13 +133,14 @@ export class DecisionReviewer extends React.PureComponent {
   render = () => <React.Fragment>
     <NavigationBar
       wideApp
-      appName="Reader"
+      appName="Queue"
       logoProps={{
-        accentColor: LOGO_COLORS.READER.ACCENT,
-        overlapColor: LOGO_COLORS.READER.OVERLAP
+        accentColor: LOGO_COLORS.QUEUE.ACCENT,
+        overlapColor: LOGO_COLORS.QUEUE.OVERLAP
       }}
       userDisplayName={this.props.userDisplayName}
       dropdownUrls={this.props.dropdownUrls}
+      applicationUrls={this.props.applicationUrls}
       rightNavElement={<CaseSearchLink />}
       defaultUrl="/queue"
       outsideCurrentRouter>
@@ -153,7 +154,7 @@ export class DecisionReviewer extends React.PureComponent {
         <PageRoute
           exact
           title={this.getClaimsFolderPageTitle(this.props.appeal)}
-          breadcrumb=""
+          breadcrumb="Reader"
           path="/:vacolsId/documents"
           render={this.routedPdfListView} />
       </AppFrame>
