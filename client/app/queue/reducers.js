@@ -1,5 +1,4 @@
 /* eslint-disable max-lines */
-// @flow
 
 import { timeFunction } from '../util/PerfDebug';
 import { update } from '../util/ReducerUtil';
@@ -52,7 +51,7 @@ export const initialState = {
 };
 
 // eslint-disable-next-line max-statements
-export const workQueueReducer = (state: QueueState = initialState, action: Object = {}): QueueState => {
+export const workQueueReducer = (state, action) => {
   switch (action.type) {
   case ACTIONS.RECEIVE_QUEUE_DETAILS:
     return update(state, {

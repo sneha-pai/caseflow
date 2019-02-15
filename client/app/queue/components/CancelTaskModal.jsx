@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,25 +15,6 @@ import {
 import editModalBase from './EditModalBase';
 import { taskActionData } from '../utils';
 import TASK_STATUSES from '../../../constants/TASK_STATUSES.json';
-
-import type { State } from '../types/state';
-import type { Task, Appeal } from '../types/models';
-
-type Params = {|
-  task: Task,
-  taskId: string,
-  appeal: Appeal,
-  appealId: string,
-  modalType: string,
-|};
-
-type Props = Params & {|
-  saveState: boolean,
-  history: Object,
-  hearingDay: Object,
-  requestPatch: typeof requestPatch,
-  onReceiveAmaTasks: typeof onReceiveAmaTasks
-|};
 
 class CancelTaskModal extends React.Component {
   submit = () => {
@@ -73,7 +53,7 @@ class CancelTaskModal extends React.Component {
   };
 }
 
-const mapStateToProps = (state, ownProps: Params) => ({
+const mapStateToProps = (state, ownProps) => ({
   task: taskById(state, { taskId: ownProps.taskId }),
   appeal: appealWithDetailSelector(state, ownProps),
   saveState: state.ui.saveState.savePending,

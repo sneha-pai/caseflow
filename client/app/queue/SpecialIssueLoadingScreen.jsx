@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,15 +9,6 @@ import ApiUtil from '../util/ApiUtil';
 
 import { setSpecialIssues } from './QueueActions';
 
-type Params = {|
-  children: React.Node,
-  appealExternalId: number
-|};
-
-type Props = Params & {|
-  // Action creators
-  setSpecialIssues: typeof setSpecialIssues
-|};
 
 class SpecialIssueLoadingScreen extends React.PureComponent {
   createLoadPromise = () => ApiUtil.get(

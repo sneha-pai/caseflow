@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { css } from 'glamor';
@@ -11,22 +10,6 @@ import { COLORS, VACOLS_DISPOSITIONS } from '../constants';
 import COPY from '../../../COPY.json';
 import UNDECIDED_VACOLS_DISPOSITIONS_BY_ID from '../../../constants/UNDECIDED_VACOLS_DISPOSITIONS_BY_ID.json';
 import ISSUE_DISPOSITIONS_BY_ID from '../../../constants/ISSUE_DISPOSITIONS_BY_ID.json';
-
-import type {
-  Appeal,
-  Issue
-} from '../types/models';
-
-type Params = {|
-  updateIssue: Function,
-  appeal: Appeal,
-  issue: Issue
-|};
-
-type Props = Params & {|
-  highlight: boolean,
-  noStyling: boolean
-|}
 
 class SelectIssueDispositionDropdown extends React.PureComponent {
   getStyling = () => {
@@ -51,7 +34,7 @@ class SelectIssueDispositionDropdown extends React.PureComponent {
     return css({ minHeight: '12rem' });
   }
 
-  getDispositions = (): Array<Object> => {
+  getDispositions = () => {
     const { appeal } = this.props;
 
     if (appeal.isLegacyAppeal) {

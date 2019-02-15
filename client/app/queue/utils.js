@@ -51,12 +51,12 @@ export const prepareMostRecentlyHeldHearingForStore = (appealId: string, hearing
   return {
     appealId,
     hearing: {
-      heldBy.held_by,
-      viewedByJudge.viewed_by_judge,
-      date.date,
-      type.type,
-      externalId.external_id,
-      disposition.disposition
+      heldBy: hearing.held_by,
+      viewedByJudge: hearing.viewed_by_judge,
+      date: hearing.date,
+      type: hearing.type,
+      externalId: hearing.external_id,
+      disposition: hearing.disposition
     }
   };
 };
@@ -235,12 +235,12 @@ export const prepareAppealIssuesForStore = (appeal: { attributes: Object }) => {
 
 export const prepareAppealHearingsForStore = (appeal: { attributes: Object }) => appeal.attributes.hearings.
   map((hearing) => ({
-    heldBy.held_by,
-    viewedByJudge.viewed_by_judge,
-    date.date,
-    type.type,
-    externalId.external_id,
-    disposition.disposition
+    heldBy: hearing.held_by,
+    viewedByJudge: hearing.viewed_by_judge,
+    date: hearing.date,
+    type: hearing.type,
+    externalId: hearing.external_id,
+    disposition: hearing.disposition
   }));
 
 const prepareAppealAvailableHearingLocationsForStore = (appeal: { attributes: Object }) => appeal.attributes.

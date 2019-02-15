@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,26 +16,6 @@ import SearchableDropdown from '../components/SearchableDropdown';
 import COPY from '../../COPY.json';
 
 const selectJudgeButtonStyling = (selectedJudge) => css({ paddingLeft: selectedJudge ? '' : 0 });
-
-import type {
-  Judges
-} from './types/models';
-
-type Params = {|
-  judgeSelector: ?string
-|};
-
-type Props = Params & {|
-  // state
-  judges: Judges,
-  decision: Object,
-  highlightFormItems: Boolean,
-  selectingJudge: Boolean,
-  // dispatch
-  fetchJudges: typeof fetchJudges,
-  setDecisionOptions: typeof setDecisionOptions,
-  setSelectingJudge: typeof setSelectingJudge,
-|};
 
 class JudgeSelectComponent extends React.PureComponent {
   componentDidMount = () => {

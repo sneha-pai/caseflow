@@ -1,4 +1,4 @@
-// @flow
+
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -17,33 +17,7 @@ import {
   getNewDocuments
 } from './QueueActions';
 import { setUserId } from './uiReducer/uiActions';
-import type { BasicAppeals, Tasks } from './types/models';
-import type { State, UsersById } from './types/state';
 import USER_ROLE_TYPES from '../../constants/USER_ROLE_TYPES.json';
-
-type Params = {|
-  userId: number,
-  userRole: string,
-  appealId?: string,
-  children: React.Node,
-  urlToLoad?: string
-|};
-
-type Props = Params & {|
-  // From state
-  tasks: Tasks,
-  appeals: BasicAppeals,
-  amaTasks: Tasks,
-  loadedUserId: number,
-  judges: UsersById,
-  // Action creators
-  onReceiveQueue: typeof onReceiveQueue,
-  setAttorneysOfJudge: typeof setAttorneysOfJudge,
-  fetchAllAttorneys: typeof fetchAllAttorneys,
-  fetchAmaTasksOfUser: (number, string) => Promise<{ payload: { amaTasks: Tasks, appeals: BasicAppeals } }>,
-  setUserId: typeof setUserId,
-  getNewDocuments: typeof getNewDocuments
-|};
 
 class QueueLoadingScreen extends React.PureComponent {
   maybeLoadAmaQueue = () => {

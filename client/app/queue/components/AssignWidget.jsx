@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,45 +23,7 @@ import { sprintf } from 'sprintf-js';
 import { fullWidth } from '../constants';
 import editModalBase from './EditModalBase';
 
-import type {
-  AttorneysOfJudge, State
-} from '../types/state';
-import type {
-  Task, Attorneys
-} from '../types/models';
-
 const OTHER = 'OTHER';
-
-type Params = {|
-  userId?: string,
-  showRequestCasesButton?: boolean,
-  previousAssigneeId: string,
-  onTaskAssignment: Function,
-  selectedTasks: Array<Task>,
-  isModal?: boolean,
-  assignedVerb?: string
-|};
-
-type Props = Params & {|
-  // From state
-  attorneysOfJudge: AttorneysOfJudge,
-  selectedAssignee: string,
-  selectedAssigneeSecondary: string,
-  attorneys: Attorneys,
-  savePending: boolean,
-  featureToggles: Object,
-  distributionLoading: boolean,
-  // Action creators
-  setSelectedAssignee: typeof setSelectedAssignee,
-  setSelectedAssigneeSecondary: typeof setSelectedAssigneeSecondary,
-  showErrorMessage: typeof showErrorMessage,
-  resetErrorMessages: typeof resetErrorMessages,
-  showSuccessMessage: typeof showSuccessMessage,
-  resetSuccessMessages: typeof resetSuccessMessages,
-  setSavePending: typeof setSavePending,
-  resetSaveState: typeof resetSaveState,
-  requestDistribution: typeof requestDistribution
-|};
 
 class AssignWidget extends React.PureComponent {
   submit = () => {
@@ -102,7 +63,7 @@ class AssignWidget extends React.PureComponent {
     return this.assignTasks(selectedTasks, selectedAssigneeSecondary);
   }
 
-  assignTasks = (selectedTasks: Array<Task>, assigneeId: string) => {
+  assignTasks = (selectedTasks, assigneeId) => {
     const {
       previousAssigneeId,
       userId

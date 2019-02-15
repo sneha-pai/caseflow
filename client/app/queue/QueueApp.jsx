@@ -1,5 +1,4 @@
 /* eslint-disable max-lines */
-// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -59,32 +58,6 @@ import COPY from '../../COPY.json';
 import TASK_ACTIONS from '../../constants/TASK_ACTIONS.json';
 import USER_ROLE_TYPES from '../../constants/USER_ROLE_TYPES.json';
 import DECISION_TYPES from '../../constants/APPEAL_DECISION_TYPES.json';
-import type { State } from './types/state';
-
-type Props = {|
-  userDisplayName: string,
-  feedbackUrl: string,
-  userId: number,
-  userRole: string,
-  userCssId: string,
-  dropdownUrls: Array<string>,
-  applicationUrls: Array<Object>,
-  buildDate?: string,
-  reviewActionType: string,
-  userIsVsoEmployee?: boolean,
-  caseSearchHomePage?: boolean,
-  canEditAod: Boolean,
-  featureToggles: Object,
-  organizations: Array<Object>,
-  // Action creators
-  setCanEditAod: typeof setCanEditAod,
-  setFeatureToggles: typeof setFeatureToggles,
-  setUserRole: typeof setUserRole,
-  setUserCssId: typeof setUserCssId,
-  setUserIsVsoEmployee: typeof setUserIsVsoEmployee,
-  setFeedbackUrl: typeof setFeedbackUrl,
-  setOrganizations: typeof setOrganizations
-|};
 
 class QueueApp extends React.PureComponent {
   componentDidMount = () => {

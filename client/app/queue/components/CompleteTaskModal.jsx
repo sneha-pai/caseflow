@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -19,45 +18,27 @@ import {
 import editModalBase from './EditModalBase';
 import { taskActionData } from '../utils';
 
-import type { State } from '../types/state';
-import type { Task, Appeal } from '../types/models';
-
-type Params = {|
-  task: Task,
-  taskId: string,
-  appeal: Appeal,
-  appealId: string,
-  modalType: string,
-|};
-
-type Props = Params & {|
-  saveState: boolean,
-  history: Object,
-  requestPatch: typeof requestPatch,
-  onReceiveAmaTasks: typeof onReceiveAmaTasks
-|};
-
 const SEND_TO_LOCATION_MODAL_TYPE_ATTRS = {
   mark_task_complete: {
-    buildSuccessMsg: (appeal: Appeal, { assignerName }: { assignerName: string}) => ({
+    buildSuccessMsg: (appeal, { assignerName }) => ({
       title: sprintf(COPY.MARK_TASK_COMPLETE_CONFIRMATION, appeal.veteranFullName),
       detail: sprintf(COPY.MARK_TASK_COMPLETE_CONFIRMATION_DETAIL, assignerName)
     }),
     title: () => COPY.MARK_TASK_COMPLETE_TITLE,
-    getContent: ({ props }: { props: Object }) => <React.Fragment>
+    getContent: ({ props }) => <React.Fragment>
       {taskActionData(props) && taskActionData(props).modal_body}
     </React.Fragment>,
     buttonText: COPY.MARK_TASK_COMPLETE_BUTTON
   },
   send_colocated_task: {
-    buildSuccessMsg: (appeal: Appeal, { teamName }: { teamName: string }) => ({
+    buildSuccessMsg: (appeal, { teamName }) => ({
       title: sprintf(
         COPY.COLOCATED_ACTION_SEND_TO_ANOTHER_TEAM_CONFIRMATION,
         appeal.veteranFullName, teamName
       )
     }),
-    title: ({ teamName }: { teamName: string }) => sprintf(COPY.COLOCATED_ACTION_SEND_TO_ANOTHER_TEAM_HEAD, teamName),
-    getContent: ({ appeal, teamName }: { appeal: Appeal, teamName: string }) => <React.Fragment>
+    title: ({ teamName }) => sprintf(COPY.COLOCATED_ACTION_SEND_TO_ANOTHER_TEAM_HEAD, teamName),
+    getContent: ({ appeal, teamName }) => <React.Fragment>
       {sprintf(COPY.COLOCATED_ACTION_SEND_TO_ANOTHER_TEAM_COPY, appeal.veteranFullName, appeal.veteranFileNumber)}&nbsp;
       <strong>{teamName}</strong>.
     </React.Fragment>,
@@ -115,7 +96,7 @@ class CompleteTaskModal extends React.Component {
   };
 }
 
-const mapStateToProps = (state, ownProps: Params) => ({
+const mapStateToProps = (state, ownProps) => ({
   task: taskById(state, { taskId: ownProps.taskId }),
   appeal: appealWithDetailSelector(state, ownProps),
   saveState: state.ui.saveState.savePending

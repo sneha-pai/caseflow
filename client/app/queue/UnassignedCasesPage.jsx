@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,30 +12,10 @@ import {
   resetSuccessMessages
 } from './uiReducer/uiActions';
 import { judgeAssignTasksSelector, selectedTasksSelector } from './selectors';
-import type { Task, TaskWithAppeal } from './types/models';
 import Alert from '../components/Alert';
 import LoadingContainer from '../components/LoadingContainer';
 import { LOGO_COLORS } from '../constants/AppConstants';
-import type { UiStateMessage } from './types/state';
 import { css } from 'glamor';
-
-type Params = {|
-  userId: string,
-|};
-
-type Props = Params & {|
-  // Props
-  selectedTasks: Array<Task>,
-  error: ?UiStateMessage,
-  success: ?UiStateMessage,
-  tasks: Array<TaskWithAppeal>,
-  distributionLoading: Boolean,
-  distributionCompleteCasesLoading: Boolean,
-  // Action creators
-  initialAssignTasksToUser: typeof initialAssignTasksToUser,
-  resetErrorMessages: typeof resetErrorMessages,
-  resetSuccessMessages: typeof resetSuccessMessages
-|};
 
 const assignSectionStyling = css({ marginTop: '30px' });
 const loadingContainerStyling = css({ marginTop: '-2em' });

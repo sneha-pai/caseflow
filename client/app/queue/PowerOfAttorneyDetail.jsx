@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -7,22 +6,6 @@ import COPY from '../../COPY.json';
 import { getAppealValue } from './QueueActions';
 import { appealWithDetailSelector } from './selectors';
 import Address from './components/Address';
-import type {
-  PowerOfAttorney
-} from './types/models';
-
-type Params = {|
-  appealId: string
-|};
-
-type Props = Params & {|
-  // state
-  powerOfAttorney: PowerOfAttorney,
-  loading: boolean,
-  error: Object,
-  // dispatch
-  getAppealValue: typeof getAppealValue
-|};
 
 export class PowerOfAttorneyDetail extends React.PureComponent {
   componentDidMount = () => {

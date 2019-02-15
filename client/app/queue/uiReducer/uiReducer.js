@@ -1,7 +1,6 @@
-// @flow
+
 import { update } from '../../util/ReducerUtil';
 import { ACTIONS } from './uiConstants';
-import type { UiState } from '../types/state';
 
 const initialSaveState = {
   savePending: false,
@@ -67,7 +66,7 @@ const setModalState = (state, visibility, modalType) => update(state, {
 const showModal = (state, modalType) => setModalState(state, true, modalType);
 const hideModal = (state, modalType) => setModalState(state, false, modalType);
 
-const workQueueUiReducer = (state: UiState = initialState, action: Object = {}) => {
+const workQueueUiReducer = (state, action = {}) => {
   switch (action.type) {
   case ACTIONS.SET_SELECTING_JUDGE:
     return update(state, {
