@@ -36,7 +36,7 @@ type Props = Params & {|
   onReceiveAmaTasks: typeof onReceiveAmaTasks
 |};
 
-class CancelTaskModal extends React.Component<Props> {
+class CancelTaskModal extends React.Component {
   submit = () => {
     const {
       task,
@@ -73,7 +73,7 @@ class CancelTaskModal extends React.Component<Props> {
   };
 }
 
-const mapStateToProps = (state: State, ownProps: Params) => ({
+const mapStateToProps = (state, ownProps: Params) => ({
   task: taskById(state, { taskId: ownProps.taskId }),
   appeal: appealWithDetailSelector(state, ownProps),
   saveState: state.ui.saveState.savePending,
@@ -99,4 +99,4 @@ export default (withRouter(
   connect(mapStateToProps, mapDispatchToProps)(editModalBase(
     CancelTaskModal, { propsToText }
   ))
-): React.ComponentType<Params>);
+));

@@ -35,7 +35,7 @@ type Props = {
   stretchToFullWidth?: boolean
 };
 
-export default class IssueList extends React.PureComponent<Props> {
+export default class IssueList extends React.PureComponent {
   getIssues = () => {
     const {
       appeal: {

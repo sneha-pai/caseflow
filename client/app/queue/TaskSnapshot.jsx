@@ -30,7 +30,7 @@ type Props = Params & {|
   appeal: Appeal
 |};
 
-export class TaskSnapshot extends React.PureComponent<Props> {
+export class TaskSnapshot extends React.PureComponent {
 
   render = () => {
     const {
@@ -60,7 +60,7 @@ export class TaskSnapshot extends React.PureComponent<Props> {
   };
 }
 
-const mapStateToProps = (state: State, ownProps: Params) => {
+const mapStateToProps = (state, ownProps: Params) => {
   return {
     appeal: appealWithDetailSelector(state, { appealId: ownProps.appealId }),
     tasks: taskSnapshotTasksForAppeal(state, { appealId: ownProps.appealId })

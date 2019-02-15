@@ -64,7 +64,7 @@ type Props = Params & {|
   requestDistribution: typeof requestDistribution
 |};
 
-class AssignWidget extends React.PureComponent<Props> {
+class AssignWidget extends React.PureComponent {
   submit = () => {
     const { selectedAssignee, selectedAssigneeSecondary, selectedTasks } = this.props;
 
@@ -231,7 +231,7 @@ class AssignWidget extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state) => {
   const { attorneysOfJudge, attorneys, pendingDistribution } = state.queue;
   const { selectedAssignee, selectedAssigneeSecondary, featureToggles } = state.ui;
   const { savePending } = state.ui.saveState;
@@ -262,10 +262,10 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 export default (connect(
   mapStateToProps,
   mapDispatchToProps
-)(AssignWidget): React.ComponentType<Params>);
+)(AssignWidget));
 
 export const AssignWidgetModal = (connect(
   mapStateToProps,
   mapDispatchToProps
-)(editModalBase(AssignWidget, { title: COPY.ASSIGN_WIDGET_MODAL_TITLE })): React.ComponentType<Params>);
+)(editModalBase(AssignWidget, { title: COPY.ASSIGN_WIDGET_MODAL_TITLE })));
 

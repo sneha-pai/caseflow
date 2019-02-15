@@ -45,7 +45,7 @@ type Props = Params & {|
   getNewDocuments: typeof getNewDocuments
 |};
 
-class QueueLoadingScreen extends React.PureComponent<Props> {
+class QueueLoadingScreen extends React.PureComponent {
   maybeLoadAmaQueue = () => {
     const {
       userId,
@@ -140,7 +140,7 @@ class QueueLoadingScreen extends React.PureComponent<Props> {
   };
 }
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state) => {
   const { tasks, amaTasks, appeals } = state.queue;
 
   return {
@@ -160,4 +160,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getNewDocuments
 }, dispatch);
 
-export default (connect(mapStateToProps, mapDispatchToProps)(QueueLoadingScreen): React.ComponentType<Params>);
+export default (connect(mapStateToProps, mapDispatchToProps)(QueueLoadingScreen));

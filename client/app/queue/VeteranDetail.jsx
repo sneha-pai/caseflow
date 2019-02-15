@@ -36,7 +36,7 @@ type Props = Params & {|
   getAppealValue: typeof getAppealValue
 |};
 
-export class VeteranDetail extends React.PureComponent<Props> {
+export class VeteranDetail extends React.PureComponent {
   componentDidMount = () => {
     this.props.getAppealValue(
       this.props.appeal.externalId,
@@ -141,5 +141,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAppealValue
 }, dispatch);
 
-export default (connect(mapStateToProps, mapDispatchToProps)(VeteranDetail): React.ComponentType<Params>);
+export default (connect(mapStateToProps, mapDispatchToProps)(VeteranDetail));
 

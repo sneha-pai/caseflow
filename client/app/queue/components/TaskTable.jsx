@@ -65,7 +65,7 @@ type Props = Params & {|
   defaultSortIdx: number
 |};
 
-export class TaskTableUnconnected extends React.PureComponent<Props> {
+export class TaskTableUnconnected extends React.PureComponent {
   getKeyForRow = (rowNumber: number, object: TaskWithAppeal) => object.uniqueId
 
   isTaskSelected = (uniqueId: string) => {
@@ -389,4 +389,4 @@ const mapDispatchToProps = (dispatch) => (
   }, dispatch)
 );
 
-export default (connect(mapStateToProps, mapDispatchToProps)(TaskTableUnconnected): React.ComponentType<Params>);
+export default (connect(mapStateToProps, mapDispatchToProps)(TaskTableUnconnected));

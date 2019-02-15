@@ -9,7 +9,7 @@ type Props = {|
   userId: number
 |};
 
-export default class QueueJudgeAssignOrReviewDropdown extends React.Component<Props> {
+export default class QueueJudgeAssignOrReviewDropdown extends React.Component {
   render = () => {
     const url = window.location.pathname.split('/');
     const location = url[url.length - 1];

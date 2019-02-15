@@ -31,5 +31,5 @@ const DispatchSuccessDetail = (props: Props) => {
 };
 
 export default (
-  connect((state: State) => ({ feedbackUrl: state.ui.feedbackUrl }))(DispatchSuccessDetail): React.ComponentType<Params>
+  connect((state) => ({ feedbackUrl: state.ui.feedbackUrl }))(DispatchSuccessDetail)
 );

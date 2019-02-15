@@ -41,7 +41,7 @@ type Props = Params & {|
 const assignSectionStyling = css({ marginTop: '30px' });
 const loadingContainerStyling = css({ marginTop: '-2em' });
 
-class UnassignedCasesPage extends React.PureComponent<Props> {
+class UnassignedCasesPage extends React.PureComponent {
   componentDidMount = () => {
     this.props.resetSuccessMessages();
     this.props.resetErrorMessages();
@@ -122,4 +122,4 @@ const mapDispatchToProps = (dispatch) =>
     resetSuccessMessages
   }, dispatch);
 
-export default (connect(mapStateToProps, mapDispatchToProps)(UnassignedCasesPage): React.ComponentType<Params>);
+export default (connect(mapStateToProps, mapDispatchToProps)(UnassignedCasesPage));

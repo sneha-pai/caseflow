@@ -28,7 +28,7 @@ type Props = Params & {|
   noStyling: boolean
 |}
 
-class SelectIssueDispositionDropdown extends React.PureComponent<Props> {
+class SelectIssueDispositionDropdown extends React.PureComponent {
   getStyling = () => {
     const {
       highlight,
@@ -104,4 +104,4 @@ const mapStateToProps = (state, ownProps) => ({
   highlight: _.isUndefined(ownProps.highlight) ? state.ui.highlightFormItems : ownProps.highlight
 });
 
-export default (connect(mapStateToProps)(SelectIssueDispositionDropdown): React.ComponentType<Params>);
+export default (connect(mapStateToProps)(SelectIssueDispositionDropdown));

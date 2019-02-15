@@ -86,7 +86,7 @@ type Props = {|
   setOrganizations: typeof setOrganizations
 |};
 
-class QueueApp extends React.PureComponent<Props> {
+class QueueApp extends React.PureComponent {
   componentDidMount = () => {
     this.props.setCanEditAod(this.props.canEditAod);
     this.props.setFeatureToggles(this.props.featureToggles);
@@ -439,7 +439,7 @@ QueueApp.propTypes = {
   buildDate: PropTypes.string
 };
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state) => ({
   reviewActionType: state.queue.stagedChanges.taskDecision.type
 });
 

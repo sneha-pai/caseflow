@@ -19,7 +19,7 @@ type Props = Params & {|
   setSpecialIssues: typeof setSpecialIssues
 |};
 
-class SpecialIssueLoadingScreen extends React.PureComponent<Props> {
+class SpecialIssueLoadingScreen extends React.PureComponent {
   createLoadPromise = () => ApiUtil.get(
     `/appeals/${this.props.appealExternalId}/special_issues`, { timeout: { response: 5 * 60 * 1000 } }).then(
     (response) => {
@@ -61,4 +61,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   setSpecialIssues
 }, dispatch);
 
-export default (connect(null, mapDispatchToProps)(SpecialIssueLoadingScreen): React.ComponentType<Params>);
+export default (connect(null, mapDispatchToProps)(SpecialIssueLoadingScreen));

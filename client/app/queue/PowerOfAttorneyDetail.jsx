@@ -24,7 +24,7 @@ type Props = Params & {|
   getAppealValue: typeof getAppealValue
 |};
 
-export class PowerOfAttorneyDetail extends React.PureComponent<Props> {
+export class PowerOfAttorneyDetail extends React.PureComponent {
   componentDidMount = () => {
     if (!this.props.powerOfAttorney) {
       this.props.getAppealValue(
@@ -78,4 +78,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getAppealValue
 }, dispatch);
 
-export default (connect(mapStateToProps, mapDispatchToProps)(PowerOfAttorneyDetail): React.ComponentType<Params>);
+export default (connect(mapStateToProps, mapDispatchToProps)(PowerOfAttorneyDetail));

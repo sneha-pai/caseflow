@@ -22,7 +22,7 @@ type Props = Params & {|
   getNewDocuments: Function
 |};
 
-class NewFile extends React.Component<Props> {
+class NewFile extends React.Component {
   componentDidMount = () => {
     if (!this.props.docs && !this.props.docsLoading) {
       this.props.getNewDocuments(this.props.externalId, this.props.cached);
@@ -40,7 +40,7 @@ class NewFile extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: State, ownProps: Params) => {
+const mapStateToProps = (state, ownProps: Params) => {
   const documentObject = state.queue.newDocsForAppeal[ownProps.externalAppealId];
 
   return {
@@ -56,4 +56,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getNewDocuments
 }, dispatch);
 
-export default (connect(mapStateToProps, mapDispatchToProps)(NewFile): React.ComponentType<Params>);
+export default (connect(mapStateToProps, mapDispatchToProps)(NewFile));

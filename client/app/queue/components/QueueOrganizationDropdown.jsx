@@ -10,7 +10,7 @@ type Props = {|
   organizations: Array<Object>
 |};
 
-export default class QueueOrganizationDropdown extends React.Component<Props> {
+export default class QueueOrganizationDropdown extends React.Component {
   render = () => {
     const { organizations } = this.props;
     const url = window.location.pathname.split('/');

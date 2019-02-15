@@ -26,7 +26,7 @@ import type {
 } from './types/models';
 import TASK_STATUSES from '../../constants/TASK_STATUSES.json';
 
-export const selectedTasksSelector = (state: State, userId: string) => {
+export const selectedTasksSelector = (state, userId: string) => {
   return _.map(
     state.queue.isTaskAssignedToUserSelected[userId] || {},
     (selected, id) => {
@@ -39,18 +39,18 @@ export const selectedTasksSelector = (state: State, userId: string) => {
   ).filter(Boolean);
 };
 
-const getTasks = (state: State): Tasks => state.queue.tasks;
-const getAmaTasks = (state: State): Tasks => state.queue.amaTasks;
-const getAppeals = (state: State): BasicAppeals => state.queue.appeals;
-const getAppealDetails = (state: State): AppealDetails => state.queue.appealDetails;
-const getUserCssId = (state: State): string => state.ui.userCssId;
-const getAppealId = (state: State, props: Object): string => props.appealId;
-const getActiveOrganizationId = (state: State): ?number => state.ui.activeOrganization.id;
-const getTaskUniqueId = (state: State, props: Object): string => props.taskId;
-const getCaseflowVeteranId = (state: State, props: Object): ?string => props.caseflowVeteranId;
-const getModals = (state: State): UiStateModals => state.ui.modals;
-const getNewDocsForAppeal = (state: State): NewDocsForAppeal => state.queue.newDocsForAppeal;
-const getClaimReviews = (state: State): ClaimReviews => state.queue.claimReviews;
+const getTasks = (state): Tasks => state.queue.tasks;
+const getAmaTasks = (state): Tasks => state.queue.amaTasks;
+const getAppeals = (state): BasicAppeals => state.queue.appeals;
+const getAppealDetails = (state): AppealDetails => state.queue.appealDetails;
+const getUserCssId = (state): string => state.ui.userCssId;
+const getAppealId = (state, props: Object): string => props.appealId;
+const getActiveOrganizationId = (state): ?number => state.ui.activeOrganization.id;
+const getTaskUniqueId = (state, props: Object): string => props.taskId;
+const getCaseflowVeteranId = (state, props: Object): ?string => props.caseflowVeteranId;
+const getModals = (state): UiStateModals => state.ui.modals;
+const getNewDocsForAppeal = (state): NewDocsForAppeal => state.queue.newDocsForAppeal;
+const getClaimReviews = (state): ClaimReviews => state.queue.claimReviews;
 
 export const incompleteTasksSelector = (tasks: Tasks | Array<Task>) => _.filter(tasks, (task) => taskIsActive(task));
 
@@ -313,7 +313,7 @@ export const judgeAssignTasksSelector = createSelector(
 
 // ***************** Non-memoized selectors *****************
 
-const getAttorney = (state: State, attorneyId: string) => {
+const getAttorney = (state, attorneyId: string) => {
   if (!state.queue.attorneysOfJudge) {
     return null;
   }
@@ -321,7 +321,7 @@ const getAttorney = (state: State, attorneyId: string) => {
   return _.find(state.queue.attorneysOfJudge, (attorney: User) => attorney.id.toString() === attorneyId);
 };
 
-export const getAssignedTasks = (state: State, attorneyId: string) => {
+export const getAssignedTasks = (state, attorneyId: string) => {
   const tasks =
     incompleteTasksSelector(
       taskIsNotOnHoldSelector(
@@ -332,7 +332,7 @@ export const getAssignedTasks = (state: State, attorneyId: string) => {
   return _.filter(tasks, (task) => task.assignedTo.cssId === cssId);
 };
 
-export const getTasksByUserId = (state: State) => {
+export const getTasksByUserId = (state) => {
   const tasks =
     incompleteTasksSelector(
       taskIsNotOnHoldSelector(

@@ -42,7 +42,7 @@ class AddNewTaskButton extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state: State, ownProps: Params) => {
+const mapStateToProps = (state, ownProps: Params) => {
 
   return {
     rootTask: rootTasksForAppeal(state, { appealId: ownProps.appealId })[0]

@@ -27,7 +27,7 @@ class CaseTimeline extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state: State, ownProps: Params) => {
+const mapStateToProps = (state, ownProps: Params) => {
   return {
     tasks: caseTimelineTasksForAppeal(state, { appealId: ownProps.appeal.externalId })
   };

@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -29,21 +29,8 @@ const noTopBottomMargin = css({
   marginBottom: '1rem'
 });
 
-import type {
-  Appeal,
-  Hearing
-} from './types/models';
-
-type Props = {|
-  appeal: Appeal,
-|};
-
-type Params = Props & {|
-  showVeteranCaseList: typeof showVeteranCaseList
-|}
-
-class CaseHearingsDetail extends React.PureComponent<Params> {
-  getHearingAttrs = (hearing: Hearing): Array<Object> => {
+class CaseHearingsDetail extends React.PureComponent {
+  getHearingAttrs = (hearing) => {
     return [{
       label: 'Type',
       value: hearing.type
@@ -164,4 +151,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   showVeteranCaseList
 }, dispatch);
 
-export default (connect(null, mapDispatchToProps)(CaseHearingsDetail): React.ComponentType<Props>);
+export default (connect(null, mapDispatchToProps)(CaseHearingsDetail));

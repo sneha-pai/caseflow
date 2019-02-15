@@ -38,7 +38,7 @@ type Props = Params & {|
   setSelectingJudge: typeof setSelectingJudge,
 |};
 
-class JudgeSelectComponent extends React.PureComponent<Props> {
+class JudgeSelectComponent extends React.PureComponent {
   componentDidMount = () => {
     if (_.isEmpty(this.props.judges)) {
       this.props.fetchJudges();
@@ -157,4 +157,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 export default (connect(
   mapStateToProps,
   mapDispatchToProps
-)(JudgeSelectComponent): React.ComponentType<Params>);
+)(JudgeSelectComponent));

@@ -1,4 +1,4 @@
-// @flow
+
 
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -24,9 +24,7 @@ import editModalBase from './EditModalBase';
 import { formatDateStringForApi, formatDateStr } from '../../util/DateUtil';
 import ApiUtil from '../../util/ApiUtil';
 
-import type {
-  State
-} from '../types/state';
+
 
 import { withRouter } from 'react-router-dom';
 import RadioField from '../../components/RadioField';
@@ -43,52 +41,10 @@ import {
 import { onReceiveAmaTasks, onReceiveAppealDetails } from '../QueueActions';
 import { prepareAppealForStore } from '../utils';
 import _ from 'lodash';
-import type { Appeal, Task } from '../types/models';
+
 import { CENTRAL_OFFICE_HEARING, VIDEO_HEARING, TIME_OPTIONS } from '../../hearings/constants/constants';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import moment from 'moment';
-
-type Params = {|
-  task: Task,
-  taskId: string,
-  appeal: Appeal,
-  appealId: string,
-  userId: string
-|};
-
-type Props = Params & {|
-  // From state
-  savePending: boolean,
-  selectedRegionalOffice: string,
-  scheduleHearingTask: Object,
-  openHearing: Object,
-  history: Object,
-  hearingDay: Object,
-  selectedHearingDay: Object,
-  selectedHearingTime: string,
-  selectedOptionalTime: Object,
-  selectedHearingLocation: Object,
-  // Action creators
-  showErrorMessage: typeof showErrorMessage,
-  resetErrorMessages: typeof resetErrorMessages,
-  showSuccessMessage: typeof showSuccessMessage,
-  resetSuccessMessages: typeof resetSuccessMessages,
-  resetSaveState: typeof resetSaveState,
-  onRegionalOfficeChange: typeof onRegionalOfficeChange,
-  requestPatch: typeof requestPatch,
-  onReceiveAmaTasks: typeof onReceiveAmaTasks,
-  onHearingDayChange: typeof onHearingDayChange,
-  onHearingTimeChange: typeof onHearingTimeChange,
-  onHearingLocationChange: typeof onHearingLocationChange,
-  onReceiveAppealDetails: typeof onReceiveAppealDetails,
-  onHearingOptionalTime: typeof onHearingOptionalTime,
-  // Inherited from EditModalBase
-  setLoading: Function,
-|};
-
-type LocalState = {|
-  invalid: Object
-|}
 
 const formStyling = css({
   '& .cf-form-radio-option:not(:last-child)': {
@@ -98,7 +54,7 @@ const formStyling = css({
   marginBottom: 0
 });
 
-class AssignHearingModal extends React.PureComponent<Props, LocalState> {
+class AssignHearingModal extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -463,4 +419,4 @@ export default (withRouter(
     AssignHearingModal, { title: 'Schedule Veteran',
       button: 'Schedule' }
   ))
-): React.ComponentType<Params>);
+));
