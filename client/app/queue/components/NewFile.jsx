@@ -8,8 +8,8 @@ import COPY from '../../../COPY.json';
 
 class NewFile extends React.Component {
   componentDidMount = () => {
-    if (!this.props.docs && !this.props.docsLoading) {
-      this.props.getNewDocuments(this.props.externalId, this.props.cached);
+    if (!this.props.docsLoading) {
+      this.props.getNewDocuments(this.props.externalId, this.props.cached, this.props.onHoldDate);
     }
   }
 
@@ -24,7 +24,7 @@ class NewFile extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps: Params) => {
+const mapStateToProps = (state, ownProps) => {
   const documentObject = state.queue.newDocsForAppeal[ownProps.externalAppealId];
 
   return {

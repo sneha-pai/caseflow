@@ -9,6 +9,8 @@ import { hideErrorMessage, showErrorMessage, showSuccessMessage } from './uiRedu
 import ApiUtil from '../util/ApiUtil';
 import _ from 'lodash';
 import pluralize from 'pluralize';
+import moment from 'moment';
+
 
 export const onReceiveQueue = (
   { tasks, amaTasks, appeals }
@@ -79,7 +81,7 @@ export const receiveNewDocuments = ({ appealId, newDocuments }) => ({
   }
 });
 
-export const getNewDocuments = (appealId, cached) => (dispatch) => {
+export const getNewDocuments = (appealId, cached, onHoldDate) => (dispatch) => {
   dispatch({
     type: ACTIONS.STARTED_LOADING_DOCUMENTS,
     payload: {
@@ -90,7 +92,15 @@ export const getNewDocuments = (appealId, cached) => (dispatch) => {
     timeout: { response: 5 * 60 * 1000 }
   };
 
-  ApiUtil.get(`/appeals/${appealId}/new_documents${cached ? '?cached' : ''}`, requestOptions).then((response) => {
+  let query = cached ? 'cached' : '';
+
+  if (onHoldDate) {
+    const timestamp = moment(onHoldDate).unix();
+
+    query += query ? `&placed_on_hold_date=${timestamp}` : `placed_on_hold_date=${timestamp}`;
+  }
+
+  ApiUtil.get(`/appeals/${appealId}/new_documents${query ? `?${query}` : ''}`, requestOptions).then((response) => {
     const resp = JSON.parse(response.text);
 
     dispatch(receiveNewDocuments({
@@ -217,7 +227,7 @@ export const stageAppeal = (appealId) => (dispatch) => {
   });
 };
 
-export const updateEditingAppealIssue = (attributes: Object) => ({
+export const updateEditingAppealIssue = (attributes) => ({
   type: ACTIONS.UPDATE_EDITING_APPEAL_ISSUE,
   payload: {
     attributes
@@ -225,7 +235,7 @@ export const updateEditingAppealIssue = (attributes: Object) => ({
 });
 
 export const startEditingAppealIssue =
-  (appealId, issueId, attributes: Object) => (dispatch) => {
+  (appealId, issueId, attributes) => (dispatch) => {
     dispatch({
       type: ACTIONS.START_EDITING_APPEAL_ISSUE,
       payload: {

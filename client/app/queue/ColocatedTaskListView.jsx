@@ -11,7 +11,6 @@ import AppSegment from '@department-of-veterans-affairs/caseflow-frontend-toolki
 
 import {
   newTasksByAssigneeCssIdSelector,
-  pendingTasksByAssigneeCssIdSelector,
   onHoldTasksByAssigneeCssIdSelector,
   completeTasksByAssigneeCssIdSelector
 } from './selectors';
@@ -25,6 +24,7 @@ import {
 
 import Alert from '../components/Alert';
 import TabWindow from '../components/TabWindow';
+import NewFileAll from './components/NewFileAll';
 
 const containerStyles = css({
   position: 'relative'
@@ -42,7 +42,6 @@ class ColocatedTaskListView extends React.PureComponent {
       success,
       organizations,
       numNewTasks,
-      numPendingTasks,
       numOnHoldTasks
     } = this.props;
 
@@ -52,12 +51,9 @@ class ColocatedTaskListView extends React.PureComponent {
         page: <NewTasksTab />
       },
       {
-        label: sprintf(COPY.COLOCATED_QUEUE_PAGE_PENDING_TAB_TITLE, numPendingTasks),
-        page: <PendingTasksTab />
-      },
-      {
         label: sprintf(COPY.QUEUE_PAGE_ON_HOLD_TAB_TITLE, numOnHoldTasks),
-        page: <OnHoldTasksTab />
+        page: <OnHoldTasksTab />,
+        indicator: <NewFileIcon />
       },
       {
         label: COPY.QUEUE_PAGE_COMPLETE_TAB_TITLE,
@@ -81,7 +77,6 @@ const mapStateToProps = (state) => {
     success,
     organizations: state.ui.organizations,
     numNewTasks: newTasksByAssigneeCssIdSelector(state).length,
-    numPendingTasks: pendingTasksByAssigneeCssIdSelector(state).length,
     numOnHoldTasks: onHoldTasksByAssigneeCssIdSelector(state).length
   };
 };
@@ -92,6 +87,10 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default (connect(mapStateToProps, mapDispatchToProps)(ColocatedTaskListView));
+
+const NewFileIcon = connect(
+  (state: State) => ({ tasks: onHoldTasksByAssigneeCssIdSelector(state) }))(
+  (props: { tasks: Array<TaskWithAppeal> }) => <NewFileAll tasks={props.tasks} useOnHoldDate />);
 
 const NewTasksTab = connect(
   (state) => ({
@@ -154,6 +153,8 @@ const OnHoldTasksTab = connect(
         includeDocketNumber
         includeDaysOnHold
         includeReaderLink
+        includeNewDocsIcon
+        useOnHoldDate
         tasks={props.tasks}
       />
     </React.Fragment>;

@@ -11,6 +11,7 @@ import QueueOrganizationDropdown from './components/QueueOrganizationDropdown';
 import AppSegment from '@department-of-veterans-affairs/caseflow-frontend-toolkit/components/AppSegment';
 import Link from '@department-of-veterans-affairs/caseflow-frontend-toolkit/components/Link';
 import Alert from '../components/Alert';
+import NewFileAll from './components/NewFileAll';
 
 import {
   completeTasksByAssigneeCssIdSelector,
@@ -71,6 +72,8 @@ class AttorneyTaskListView extends React.PureComponent {
         page: <TaskTableTab
           description={COPY.ATTORNEY_QUEUE_PAGE_ASSIGNED_TASKS_DESCRIPTION}
           tasks={this.props.workableTasks}
+          includeNewDocsIcon={false}
+          useOnHoldDate={false}
         />
       },
       {
@@ -80,13 +83,18 @@ class AttorneyTaskListView extends React.PureComponent {
         page: <TaskTableTab
           description={COPY.ATTORNEY_QUEUE_PAGE_ON_HOLD_TASKS_DESCRIPTION}
           tasks={this.props.onHoldTasks}
-        />
+          includeNewDocsIcon
+          useOnHoldDate
+        />,
+        indicator: <NewFileAll tasks={this.props.onHoldTasks} useOnHoldDate />
       },
       {
         label: COPY.QUEUE_PAGE_COMPLETE_TAB_TITLE,
         page: <TaskTableTab
           description={COPY.QUEUE_PAGE_COMPLETE_TASKS_DESCRIPTION}
           tasks={this.props.completedTasks}
+          includeNewDocsIcon={false}
+          useOnHoldDate={false}
         />
       }
     ];
@@ -141,7 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default (connect(mapStateToProps, mapDispatchToProps)(AttorneyTaskListView));
 
-const TaskTableTab = ({ description, tasks }) => <React.Fragment>
+const TaskTableTab = ({ description, tasks, includeNewDocsIcon, useOnHoldDate }) => <React.Fragment>
   <p className="cf-margin-top-0" >{description}</p>
   <TaskTable
     includeHearingBadge
@@ -153,5 +161,7 @@ const TaskTableTab = ({ description, tasks }) => <React.Fragment>
     includeReaderLink
     requireDasRecord
     tasks={tasks}
+    includeNewDocsIcon={includeNewDocsIcon}
+    useOnHoldDate={useOnHoldDate}
   />
 </React.Fragment>;

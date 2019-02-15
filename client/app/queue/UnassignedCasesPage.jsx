@@ -59,6 +59,7 @@ class UnassignedCasesPage extends React.PureComponent {
               includeIssueCount
               includeDaysWaiting
               includeReaderLink
+              includeNewDocsIcon
               tasks={this.props.tasks}
               userId={userId} />
           }

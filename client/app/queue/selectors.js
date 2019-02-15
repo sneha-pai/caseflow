@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 import {
-  taskHasNewDocuments,
   taskIsActive,
   taskIsOnHold
 } from './utils';
@@ -253,10 +252,11 @@ export const pendingTasksByAssigneeCssIdSelector = createSelector(
   )
 );
 
-export const onHoldTasksByAssigneeCssIdSelector = createSelector(
+
+export const onHoldTasksByAssigneeCssIdSelector= createSelector(
   [incompleteTasksWithHold, getNewDocsForAppeal],
-  (tasks, newDocsForAppeal) => tasks.filter((task) =>
-    taskIsOnHold(task) && !taskHasNewDocuments(task, newDocsForAppeal)
+  (tasks) => tasks.filter((task) =>
+    taskIsOnHold(task)
   )
 );
 

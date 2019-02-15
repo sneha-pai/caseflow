@@ -70,6 +70,7 @@ class AssignedCasesPage extends React.Component {
         includeIssueCount
         includeDaysWaiting
         includeReaderLink
+        includeNewDocsIcon
         tasks={this.props.tasksOfAttorney}
         userId={attorneyId} />
     </React.Fragment>;
