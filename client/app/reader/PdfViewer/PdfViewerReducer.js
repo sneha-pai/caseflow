@@ -29,6 +29,7 @@ export const initialState = {
   didLoadAppealFail: false,
   scrollToSidebarComment: null,
   scale: 1,
+  pageNumber: 1,
   windowingOverscan: _.random(5, 10)
 };
 
@@ -141,6 +142,11 @@ export const pdfViewerReducer = (state = initialState, action = {}) => {
   case Constants.SET_ZOOM_LEVEL:
     return update(state, {
       scale: { $set: action.payload.scale }
+    });
+
+  case Constants.UPDATE_PAGE_NUMBER:
+    return update(state, {
+      pageNumber: { $set: action.payload.pageNumber }
     });
 
   // errors

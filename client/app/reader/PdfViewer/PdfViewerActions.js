@@ -144,6 +144,13 @@ export const setZoomLevel = (scale) => ({
   }
 });
 
+export const updatePageNumberInStore = (pageNumber) => ({
+  type: Constants.UPDATE_PAGE_NUMBER,
+  payload: {
+    pageNumber
+  }
+});
+
 /** Windowing parameters **/
 
 export const handleSetOverscanValue = (overscanValue) => ({

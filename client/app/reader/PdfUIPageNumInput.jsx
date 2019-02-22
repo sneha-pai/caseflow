@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { jumpToPage } from '../reader/PdfViewer/PdfViewerActions';
+import { jumpToPage, updatePageNumberInStore } from '../reader/PdfViewer/PdfViewerActions';
 import { isValidWholeNumber } from './utils';
 import TextField from '../components/TextField';
 
@@ -25,9 +25,12 @@ export class PdfUIPageNumInput extends React.PureComponent {
   }
 
   setPageNumber = (pageNumber) => {
+    console.log('the page number from local state', pageNumber);
+    console.log('the page number from redux', this.props.pageNumber);
     this.setState({
-      pageNumber
+      pageNumber: this.props.pageNumber || pageNumber
     });
+    this.props.updatePageNumberInStore(pageNumber);
   }
 
   handleKeyPress = (event) => {
@@ -78,11 +81,18 @@ PdfUIPageNumInput.propTypes = {
   jumpToPage: PropTypes.func,
   docId: PropTypes.number
 };
+const mapStateToProps = (state) => {
+
+  return {
+    pageNumber: state.pdfViewer.pageNumber
+  };
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  jumpToPage
+  jumpToPage,
+  updatePageNumberInStore
 }, dispatch);
 
 export default connect(
-  null, mapDispatchToProps
+  mapStateToProps, mapDispatchToProps
 )(PdfUIPageNumInput);
