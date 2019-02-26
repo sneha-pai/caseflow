@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+/* eslint-disable no-debugger */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -115,13 +116,15 @@ export class PdfFile extends React.PureComponent {
     if (this.grid && nextProps.scale !== this.props.scale) {
       // Set the scroll location based on the current page and where you
       // are on that page scaled by the zoom factor.
-      const zoomFactor = nextProps.scale / this.props.scale;
-      const nonZoomedLocation = (this.scrollTop - this.getOffsetForPageIndex(this.rowStartIndex).scrollTop);
-
+      // const zoomFactor = nextProps.scale / this.props.scale;
+      // const nonZoomedLocation = (this.scrollTop - this.getOffsetForPageIndex(this.props.pageNumber - 1).scrollTop);
+      this.isZooming = true;
       this.scrollLocation = {
-        page: this.rowStartIndex,
-        locationOnPage: nonZoomedLocation * zoomFactor
+        page: this.props.pageNumber,
+        locationOnPage: 0
       };
+      console.log(this.props.pageNumber, 'the page number');
+      console.log(this.scrollLocation, 'the scroll location');
     }
   }
 
@@ -287,6 +290,7 @@ export class PdfFile extends React.PureComponent {
   }
 
   componentDidUpdate = (prevProps) => {
+    console.log('component is updating');
     if (this.grid && this.props.isVisible) {
       if (!prevProps.isVisible) {
         // eslint-disable-next-line react/no-find-dom-node
@@ -306,6 +310,7 @@ export class PdfFile extends React.PureComponent {
       if (this.props.searchText && this.props.matchesPerPage.length) {
         this.scrollToSearchTerm(prevProps);
       }
+
     }
   }
 
@@ -314,6 +319,7 @@ export class PdfFile extends React.PureComponent {
   }
 
   onPageChange = (index, clientHeight) => {
+    console.log('parent change index', index);
     this.currentPage = index;
     this.props.onPageChange(pageNumberOfPageIndex(index), clientHeight / this.pageHeight(index));
   }
@@ -321,9 +327,9 @@ export class PdfFile extends React.PureComponent {
   onScroll = ({ clientHeight, scrollTop, scrollLeft }) => {
     this.scrollTop = scrollTop;
     this.scrollLeft = scrollLeft;
+    let minIndex = 0;
 
     if (this.grid) {
-      let minIndex = 0;
       let minDistance = Infinity;
 
       _.range(0, this.props.pdfDocument.pdfInfo.numPages).forEach((index) => {
@@ -335,9 +341,11 @@ export class PdfFile extends React.PureComponent {
           minDistance = distance;
         }
       });
-
+      console.log(minIndex);
       this.onPageChange(minIndex, clientHeight);
     }
+    console.log('we are scrolling');
+    console.log(minIndex, 'min index');
   }
 
   getCenterOfVisiblePage = (scrollWindowBoundary, pageScrollBoundary, pageDimension, clientDimension) => {
@@ -513,7 +521,7 @@ const mapStateToProps = (state, props) => {
     currentMatchIndex: getCurrentMatchIndex(state, props),
     matchesPerPage: getMatchesPerPageInFile(state, props),
     searchText: getSearchTerm(state, props),
-    ..._.pick(state.pdfViewer, 'jumpToPageNumber', 'scrollTop'),
+    ..._.pick(state.pdfViewer, 'jumpToPageNumber', 'scrollTop', 'pageNumber'),
     ..._.pick(state.pdf, 'pageDimensions', 'scrollToComment'),
     loadError: state.pdf.documentErrors[props.file],
     pdfDocument: state.pdf.pdfDocuments[props.file],

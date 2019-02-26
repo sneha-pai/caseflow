@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { jumpToPage, updatePageNumberInStore } from '../reader/PdfViewer/PdfViewerActions';
 import { isValidWholeNumber } from './utils';
 import TextField from '../components/TextField';
+import _ from 'lodash';
 
 const ENTER_KEY = 'Enter';
 const RADIX = 10;
@@ -19,16 +20,29 @@ export class PdfUIPageNumInput extends React.PureComponent {
   }
 
   componentWillUpdate = (nextProps) => {
+    console.log(nextProps.currentPage, 'next props current page');
+    console.log(nextProps.pageNumber, 'next props redux page number');
     if (nextProps.currentPage !== this.props.currentPage) {
+      // if (nextProps.scale === this.props.scale) {
       this.setPageNumber(nextProps.currentPage);
+      // }
     }
   }
 
+  // shouldComponentUpdate = (nextProps) => {
+  //   if (nextProps.scale !== this.props.scale) {
+  //     console.log('blocking state update');
+
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
+
   setPageNumber = (pageNumber) => {
-    console.log('the page number from local state', pageNumber);
-    console.log('the page number from redux', this.props.pageNumber);
+    console.log('am i changing');
     this.setState({
-      pageNumber: this.props.pageNumber || pageNumber
+      pageNumber
     });
     this.props.updatePageNumberInStore(pageNumber);
   }
@@ -65,7 +79,7 @@ export class PdfUIPageNumInput extends React.PureComponent {
           maxLength="4"
           name="page-progress-indicator-input"
           label="Page"
-          onChange={this.setPageNumber}
+          onChange={_.throttle(this.setPageNumber, 500)}
           onKeyPress={this.handleKeyPress}
           value={this.state.pageNumber}
           required={false}
@@ -84,7 +98,8 @@ PdfUIPageNumInput.propTypes = {
 const mapStateToProps = (state) => {
 
   return {
-    pageNumber: state.pdfViewer.pageNumber
+    pageNumber: state.pdfViewer.pageNumber,
+    scale: state.pdfViewer.scale
   };
 };
 
