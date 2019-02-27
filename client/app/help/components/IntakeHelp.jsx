@@ -36,31 +36,26 @@ class IntakeHelp extends React.Component {
       <div className="cf-help-divider"></div>
 
       <h2 id="what-is-caseflow-intake">What is Caseflow Intake?</h2>
-      <p>Caseflow Intake (Intake) is a web-based application designed to support the Appeals Modernization Act (AMA). It will process decision reviews for Veterans who have chosen the new Supplemental Claim (SC) or Higher-Level Review (HLR) options as well as those who have chosen to appeal directly to the Board through a Notice of Disagreement (NOD). Intake will serve as the single data input system for this process, providing a source of truth for AMA statutory metrics. For non-VBMS users, Intake will additionally provide a lightweight task list and facility to mark dispositions, closing the loop on appeals issues and assuring an end-to-end collection of AMA metrics. Across the board, Intake performs numerous issue-level validations, matching, and error checking, to capture the best possible data and reduce processing overhead. Intake was built by the Digital Service at VA (DSVA) and will create process improvements for many areas of the VA.
+      <p>Caseflow Intake (Intake) is a web-based application designed to support the Appeals Modernization Act (AMA). It is used to process decision reviews for Veterans who have chosen the new Supplemental Claim (SC) or Higher-Level Review (HLR) options as well as those who have chosen to appeal directly to the Board through a Notice of Disagreement (NOD). Intake serves as the single data input system for this process, providing a source of truth for AMA statutory metrics. For VBMS users, Intake creates an End Product (EP) and closes the VACOLS record automatically for eligible legacy opt-ins. Intake also guides Claims Assistants (CAs) through the process of notifying Veterans, updating necessary systems, and creating EPs. 
+      </p>
+      
+      <p>
+For non-VBMS users, Intake provides a decision review task list with functionality to mark dispositions, closing the loop on appeals issues and assuring an end-to-end collection of AMA metrics. Across the board, Intake performs numerous issue-level validations, matching, and error checking, to capture the best possible data and reduce processing overhead.
       </p>
 
       <h2 id="how-was-intake-developed">How was Intake developed?</h2>
-      <p>The DSVA team worked closely with stakeholders across the VA to develop and test Intake.
-    Using feedback from VA employees and human-centered design principles, DSVA has adjusted
-    and improved the tool steadily. They will continue to improve the tool based on feedback and as
-    they have more opportunities to make things simpler.
+      <p>The DSVA team worked closely with stakeholders across the VA to develop, test, and improve Caseflow Intake.
       </p>
 
       <h2 id="how-to-access-intake">How do I access Intake?</h2>
-      <p>To gain access to Intake, you must submit a request to your Information Security Officer (ISO)
-    and/or Information Resources Management (IRM) team to adjust your Common Security
-    Employee Manager (CSEM) permissions. To initiate the request, draft an email requesting your
-    current permissions be updated as follows:
+      <p>To gain access to Intake, you must submit a request to your Information Security Officer (ISO) and/or Information Resources Management (IRM) team to adjust your Common Security Employee Manager (CSEM) permissions. To initiate the request, draft an email requesting your current permissions be updated as follows:
       </p>
 
       <p className="cf-help-image-wrapper">
         <img className="cf-help-image" alt="Intake Access" src="/assets/help/intake-access.jpg" />
       </p>
 
-      <p>Once the email is drafted, attach a copy of your latest “VA Privacy and Information Security
-    Awareness and Rules of Behavior” training certificate and forward the email to your supervisor
-    for approval. If approved, your supervisor should forward the request to your station’s IRM team
-    and/or ISO for entry into CSEM. You will receive an email notice once access is granted.
+      <p>Once the email is drafted, attach a copy of your latest “VA Privacy and Information Security Awareness and Rules of Behavior” training certificate and forward the email to your supervisor for approval. If approved, your supervisor should forward the request to your station’s IRM team and/or ISO for entry into CSEM. You will receive an email notice once access is granted.
       </p>
 
       <h2 id="launch-intake">How do I launch Intake?</h2>
@@ -68,8 +63,7 @@ class IntakeHelp extends React.Component {
       </p>
 
       <h2 id="web-browser">Which web browser can I use with Intake?</h2>
-      <p>Intake is compatible with most modern web browsers, such as Chrome,
-    Firefox, Safari, and Internet Explorer 9 (or later).
+      <p>Intake is compatible with most modern web browsers, such as Chrome, Firefox, Safari, and Internet Explorer 9 (or later).
       </p>
 
       <h2 id="telecommuting">Does Intake work while I am telecommuting?</h2>
@@ -86,8 +80,7 @@ class IntakeHelp extends React.Component {
       </p>
 
       <h2 id="encounter-problems">What should I do if I encounter problems?</h2>
-      <p>If you encounter any problems while using Intake, contact the Caseflow Product Support Team
-    by calling 1-844-876-5548 or send an email to <a href="mailto: caseflow@va.gov">caseflow@va.gov</a>. They can be reached from 8:00AM to 8:00PM EST, Monday through Friday.
+      <p>If you encounter any problems while using Intake, contact the Caseflow Product Support Team by calling 1-844-876-5548 or send an email to <a href="mailto: caseflow@va.gov">caseflow@va.gov</a>. They can be reached from 8:00AM to 8:00PM EST, Monday through Friday.
       </p>
 
       <p className="cf-help-image-wrapper">
@@ -95,9 +88,7 @@ class IntakeHelp extends React.Component {
       </p>
 
       <h2 id="suggestions">How can I share my suggestions for improving Intake?</h2>
-      <p>You can use the "Send feedback" link located in the dropdown menu next to your username or
-    the “Send feedback” link located at the bottom right-hand corner of the screen to share your
-    ideas for improving Intake or to report an issue.
+      <p>You can use the "Send feedback" link located in the dropdown menu next to your username or the “Send feedback” link located at the bottom right-hand corner of the screen to share your ideas for improving Intake or to report an issue.
       </p>
 
       <h2 id="still-need-help">What if I still need help?</h2>
