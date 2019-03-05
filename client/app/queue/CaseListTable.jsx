@@ -1,3 +1,7 @@
+/**
+ * Table that shows all cases (appeals) filed for a given Veteran. Appears in the search results view.
+ */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';

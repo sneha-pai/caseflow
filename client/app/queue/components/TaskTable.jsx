@@ -1,3 +1,10 @@
+/**
+ * Task table in Caseflow. Used primarily throughout Queue but also used in a few other places.
+ * Task tables show tasks that are assigned to a user or organization and can:
+ *   - be filtered by column
+ *   - be placed inside tabs
+ */
+
 import * as React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';

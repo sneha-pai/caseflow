@@ -1,3 +1,7 @@
+/**
+ * Badge to be shown in a TaskTable row to indicate that a hearing has been held for an appeal.
+ */
+
 import PropTypes from 'prop-types';
 import { css } from 'glamor';
 import _ from 'lodash';

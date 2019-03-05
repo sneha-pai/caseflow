@@ -1,3 +1,8 @@
+/**
+ * Search results view, which shows appeals and claim reviews (Higher Level Reviews and Supplemental Claims).
+ * Also handles loading and making API calls.
+ */
+
 import pluralize from 'pluralize';
 import PropTypes from 'prop-types';
 import React from 'react';
