@@ -217,7 +217,10 @@ Rails.application.routes.draw do
       post :reschedule
     end
   end
+
   resources :judge_assign_tasks, only: [:create]
+
+  resources :bulk_task_assignments, only: [:create]
 
   resources :distributions, only: [:new, :show]
 
