@@ -379,7 +379,7 @@ export const initialAssignTasksToUser = ({
   let params, url;
 
   if (oldTask.appealType === 'Appeal') {
-    url = '/tasks';
+    url = '/bulk_tasks';
     params = {
       data: {
         tasks: [{
