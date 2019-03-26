@@ -150,6 +150,7 @@ class TasksController < ApplicationController
   end
   helper_method :user
 
+  # turn this into a factory so can call from bulk_task_assignment?
   def task_class
     additional_task_classes = Hash[
       *MailTask.subclasses.map { |subclass| [subclass.to_s.to_sym, subclass] }.flatten,
